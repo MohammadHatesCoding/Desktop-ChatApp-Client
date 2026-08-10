@@ -1,0 +1,75 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Common.NexusBackground">
+
+    <Grid>
+
+        <!-- Base -->
+        <Border
+            Background="{StaticResource BackgroundBrush}" />
+
+        <!-- Top-left blue ambient glow -->
+        <Border
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="520"
+            Height="420"
+            Margin="-180,-180,0,0"
+            Opacity="0.18">
+
+            <Border.Background>
+                <RadialGradientBrush>
+                    <GradientStop
+                        Offset="0"
+                        Color="#2563EB" />
+
+                    <GradientStop
+                        Offset="0.45"
+                        Color="#10265C" />
+
+                    <GradientStop
+                        Offset="1"
+                        Color="#05070B" />
+                </RadialGradientBrush>
+            </Border.Background>
+
+        </Border>
+
+
+        <!-- Bottom-right blue ambient glow -->
+        <Border
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Width="650"
+            Height="480"
+            Margin="0,0,-240,-200"
+            Opacity="0.12">
+
+            <Border.Background>
+                <RadialGradientBrush>
+                    <GradientStop
+                        Offset="0"
+                        Color="#2563EB" />
+
+                    <GradientStop
+                        Offset="0.5"
+                        Color="#10265C" />
+
+                    <GradientStop
+                        Offset="1"
+                        Color="#05070B" />
+                </RadialGradientBrush>
+            </Border.Background>
+
+        </Border>
+
+
+        <!-- Grid -->
+        <Canvas
+            x:Name="GridCanvas"
+            IsHitTestVisible="False" />
+
+    </Grid>
+
+</UserControl>

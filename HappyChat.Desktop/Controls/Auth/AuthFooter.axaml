@@ -1,0 +1,23 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Auth.AuthFooter">
+
+    <StackPanel
+        Orientation="Horizontal"
+        HorizontalAlignment="Center"
+        Spacing="4">
+
+        <TextBlock
+            Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Text}"
+            FontSize="16"
+            Foreground="{StaticResource SecondaryTextBrush}" />
+
+        <Button
+            Classes="NexusLinkButton"
+            Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=LinkText}"
+            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Command}" />
+
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,140 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:common="using:HappyChat.Desktop.Controls.Common"
+    xmlns:forms="using:HappyChat.Desktop.Controls.Forms"
+    xmlns:auth="using:HappyChat.Desktop.Controls.Auth"
+
+    x:Class="HappyChat.Desktop.Views.Auth.CreateAccountView">
+
+    <Grid>
+
+        <!-- ================================================= -->
+        <!-- Background                                      -->
+        <!-- ================================================= -->
+
+        <common:NexusBackground />
+
+
+        <!-- ================================================= -->
+        <!-- Nexus Logo                                       -->
+        <!-- ================================================= -->
+
+        <common:NexusLogo
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="48,35,0,0" />
+
+
+        <!-- ================================================= -->
+        <!-- Center Auth Card                                 -->
+        <!-- ================================================= -->
+
+        <auth:AuthCard
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel>
+
+                <!-- ============================= -->
+                <!-- Header                        -->
+                <!-- ============================= -->
+
+                <TextBlock
+                    Text="Create your account"
+                    Classes="AuthTitleStyle" />
+
+                <TextBlock
+                    Text="Join the next generation of communication"
+                    Classes="AuthSubtitleStyle"
+                    Margin="0,10,0,0" />
+
+
+                <!-- ============================= -->
+                <!-- Form                           -->
+                <!-- ============================= -->
+
+                <StackPanel
+                    Margin="0,42,0,0"
+                    Spacing="20">
+
+                    <!-- Full Name -->
+
+                    <forms:FormField
+                        Label="FULL NAME"
+                        Placeholder="Jordan Blake"
+                        Text="{Binding FullName, Mode=TwoWay}"
+                        Error="{Binding FullNameError}" />
+
+
+                    <!-- Email -->
+
+                    <forms:FormField
+                        Label="EMAIL ADDRESS"
+                        Placeholder="jordan@company.io"
+                        Text="{Binding Email, Mode=TwoWay}"
+                        Error="{Binding EmailError}" />
+
+
+                    <!-- Password -->
+
+                    <forms:PasswordField
+                        Label="PASSWORD"
+                        Placeholder="Min. 8 characters"
+                        Text="{Binding Password, Mode=TwoWay}"
+                        Error="{Binding PasswordError}" />
+
+
+                    <!-- Confirm Password -->
+
+                    <forms:PasswordField
+                        Label="CONFIRM PASSWORD"
+                        Placeholder="Repeat password"
+                        Text="{Binding ConfirmPassword, Mode=TwoWay}"
+                        Error="{Binding ConfirmPasswordError}" />
+
+                </StackPanel>
+
+
+                <!-- ============================= -->
+                <!-- Create Account Button          -->
+                <!-- ============================= -->
+
+                <common:PrimaryButton
+                    Margin="0,30,0,0"
+                    Text="Create Account"
+                    Command="{Binding CreateAccountCommand}" />
+
+
+                <!-- ============================= -->
+                <!-- General Error                  -->
+                <!-- ============================= -->
+
+                <TextBlock
+                    Text="{Binding GeneralError}"
+                    Foreground="{StaticResource ErrorBrush}"
+                    FontSize="13"
+                    HorizontalAlignment="Center"
+                    TextWrapping="Wrap"
+                    Margin="0,12,0,0"
+                    IsVisible="{Binding GeneralError}" />
+
+
+                <!-- ============================= -->
+                <!-- Footer                         -->
+                <!-- ============================= -->
+
+                <auth:AuthFooter
+                    Margin="0,32,0,0"
+                    Text="Already have an account?"
+                    LinkText="Login"
+                    Command="{Binding NavigateToLoginCommand}" />
+
+            </StackPanel>
+
+        </auth:AuthCard>
+
+    </Grid>
+
+</UserControl>

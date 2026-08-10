@@ -1,0 +1,22 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Forms.FormField"
+    x:Name="Root">
+
+	<StackPanel Spacing="8">
+
+		<TextBlock
+            Text="{Binding Label, ElementName=Root}" />
+
+		<TextBox
+            Text="{Binding Text, ElementName=Root, Mode=TwoWay}"
+            Watermark="{Binding Placeholder, ElementName=Root}" />
+
+		<TextBlock
+            Text="{Binding Error, ElementName=Root}"
+            IsVisible="{Binding HasError, ElementName=Root}" />
+
+	</StackPanel>
+
+</UserControl>

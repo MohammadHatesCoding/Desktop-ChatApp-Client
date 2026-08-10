@@ -1,0 +1,32 @@
+<Application
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.App">
+
+	<Application.Styles>
+		<FluentTheme />
+
+		<StyleInclude
+            Source="avares://HappyChat.Desktop/Styles/Controls.axaml" />
+	</Application.Styles>
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<SolidColorBrush x:Key="BackgroundBrush" Color="#05070B" />
+			<SolidColorBrush x:Key="CardBrush" Color="#0D0F13" />
+			<SolidColorBrush x:Key="InputBrush" Color="#1A1C20" />
+			<SolidColorBrush x:Key="BorderBrush" Color="#2A2D33" />
+			<SolidColorBrush x:Key="BorderHoverBrush" Color="#3A3F49" />
+
+			<SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB" />
+			<SolidColorBrush x:Key="PrimaryHoverBrush" Color="#3474F2" />
+			<SolidColorBrush x:Key="PrimaryPressedBrush" Color="#1D4ED8" />
+
+			<SolidColorBrush x:Key="TextBrush" Color="#F8FAFC" />
+			<SolidColorBrush x:Key="SecondaryTextBrush" Color="#7C8BA8" />
+			<SolidColorBrush x:Key="MutedTextBrush" Color="#53627D" />
+			<SolidColorBrush x:Key="ErrorBrush" Color="#EF4444" />
+		</ResourceDictionary>
+	</Application.Resources>
+
+</Application>

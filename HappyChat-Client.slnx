@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="HappyChat.Application/HappyChat.Application.csproj" Id="81a8b9e0-a0de-4af0-bda8-6aa65047cbc5" />
+  <Project Path="HappyChat.Core/HappyChat.Core.csproj" Id="6f30d37a-ca92-4ed3-9a69-f48395eecf2a" />
+  <Project Path="HappyChat.Desktop/HappyChat.Desktop.csproj" />
+  <Project Path="HappyChat.Infrastructure/HappyChat.Infrastructure.csproj" Id="3c81b1b4-f222-46ff-a129-14823acb8d47" />
+</Solution>

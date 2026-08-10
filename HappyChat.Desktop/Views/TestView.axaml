@@ -1,0 +1,10 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Views.TestView">
+
+    <TextBlock
+        Text="Hello HappyChat"
+        FontSize="30" />
+
+</UserControl>

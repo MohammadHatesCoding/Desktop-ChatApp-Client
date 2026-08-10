@@ -1,0 +1,23 @@
+﻿<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:auth="using:HappyChat.Desktop.Views.Auth"
+
+    x:Class="HappyChat.Desktop.Views.MainWindow"
+
+    Width="1381"
+    Height="821"
+
+    MinWidth="900"
+    MinHeight="650"
+
+    Title="HappyChat"
+
+    Background="#05070B"
+
+    WindowStartupLocation="CenterScreen">
+
+	<auth:CreateAccountView />
+
+</Window>

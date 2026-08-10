@@ -1,0 +1,61 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Color x:Key="BackgroundColor">#05070B</Color>
+	<Color x:Key="BackgroundSecondaryColor">#080B11</Color>
+
+	<Color x:Key="CardColor">#0D0F13</Color>
+	<Color x:Key="InputColor">#1A1C20</Color>
+
+	<Color x:Key="BorderColor">#2A2D33</Color>
+	<Color x:Key="BorderHoverColor">#3A3F49</Color>
+
+	<Color x:Key="PrimaryColor">#2563EB</Color>
+	<Color x:Key="PrimaryHoverColor">#3474F2</Color>
+	<Color x:Key="PrimaryPressedColor">#1D4ED8</Color>
+
+	<Color x:Key="TextColor">#F8FAFC</Color>
+	<Color x:Key="SecondaryTextColor">#7C8BA8</Color>
+	<Color x:Key="MutedTextColor">#53627D</Color>
+
+	<Color x:Key="ErrorColor">#EF4444</Color>
+	<Color x:Key="GlowColor">#2563EB</Color>
+
+	<SolidColorBrush x:Key="BackgroundBrush"
+                     Color="{StaticResource BackgroundColor}" />
+
+	<SolidColorBrush x:Key="CardBrush"
+                     Color="{StaticResource CardColor}" />
+
+	<SolidColorBrush x:Key="InputBrush"
+                     Color="{StaticResource InputColor}" />
+
+	<SolidColorBrush x:Key="BorderBrush"
+                     Color="{StaticResource BorderColor}" />
+
+	<SolidColorBrush x:Key="BorderHoverBrush"
+                     Color="{StaticResource BorderHoverColor}" />
+
+	<SolidColorBrush x:Key="PrimaryBrush"
+                     Color="{StaticResource PrimaryColor}" />
+
+	<SolidColorBrush x:Key="PrimaryHoverBrush"
+                     Color="{StaticResource PrimaryHoverColor}" />
+
+	<SolidColorBrush x:Key="PrimaryPressedBrush"
+                     Color="{StaticResource PrimaryPressedColor}" />
+
+	<SolidColorBrush x:Key="TextBrush"
+                     Color="{StaticResource TextColor}" />
+
+	<SolidColorBrush x:Key="SecondaryTextBrush"
+                     Color="{StaticResource SecondaryTextColor}" />
+
+	<SolidColorBrush x:Key="MutedTextBrush"
+                     Color="{StaticResource MutedTextColor}" />
+
+	<SolidColorBrush x:Key="ErrorBrush"
+                     Color="{StaticResource ErrorColor}" />
+
+</ResourceDictionary>

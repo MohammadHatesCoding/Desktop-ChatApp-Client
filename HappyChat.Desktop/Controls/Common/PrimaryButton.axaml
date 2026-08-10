@@ -1,0 +1,12 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Common.PrimaryButton">
+
+    <Button
+        Classes="NexusPrimaryButton"
+        Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Text}"
+        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Command}"
+        IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsEnabled}" />
+
+</UserControl>

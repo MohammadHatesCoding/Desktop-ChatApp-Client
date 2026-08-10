@@ -1,0 +1,31 @@
+﻿<ContentControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Auth.AuthCard">
+
+	<ContentControl.Template>
+		<ControlTemplate TargetType="ContentControl">
+
+			<Border
+                Width="560"
+                Padding="40"
+                Background="{DynamicResource CardBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+				<ContentPresenter
+                    Content="{TemplateBinding Content}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Top" />
+
+			</Border>
+
+		</ControlTemplate>
+	</ContentControl.Template>
+
+</ContentControl>

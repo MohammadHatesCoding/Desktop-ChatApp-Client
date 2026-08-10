@@ -1,0 +1,27 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Common.NexusLogo">
+
+	<Grid
+        Width="48"
+        Height="48">
+
+		<Border
+            Width="48"
+            Height="48"
+            CornerRadius="14"
+            Background="#171717">
+
+			<TextBlock
+                Text="H"
+                FontSize="24"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+
+		</Border>
+
+	</Grid>
+
+</UserControl>
