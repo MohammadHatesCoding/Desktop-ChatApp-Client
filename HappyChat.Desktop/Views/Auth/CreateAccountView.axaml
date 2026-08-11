@@ -59,40 +59,38 @@
                     Margin="0,42,0,0"
                     Spacing="20">
 
-                    <!-- Full Name -->
+                    <!-- Name -->
 
                     <forms:FormField
-                        Label="FULL NAME"
-                        Placeholder="Jordan Blake"
-                        Text="{Binding FullName, Mode=TwoWay}"
-                        Error="{Binding FullNameError}" />
+                        Label="NAME"
+                        Placeholder="Jordan"
+                        Text="{Binding Name, Mode=TwoWay}"
+                        Error="{Binding NameError}" />
 
 
-                    <!-- Email -->
+                    <!-- Last Name -->
 
                     <forms:FormField
-                        Label="EMAIL ADDRESS"
-                        Placeholder="jordan@company.io"
-                        Text="{Binding Email, Mode=TwoWay}"
-                        Error="{Binding EmailError}" />
+                        Label="LAST NAME"
+                        Placeholder="Blake"
+                        Text="{Binding LastName, Mode=TwoWay}"
+                        Error="{Binding LastNameError}" />
 
+					<!-- Birthdate -->
 
-                    <!-- Password -->
+					<forms:FormField
+                        Label="BIRTHDATE"
+                        Placeholder="1998-05-22"
+                        Text="{Binding BirthDate, Mode=TwoWay}"
+                        Error="{Binding BirthDateError}" />
 
-                    <forms:PasswordField
-                        Label="PASSWORD"
-                        Placeholder="Min. 8 characters"
-                        Text="{Binding Password, Mode=TwoWay}"
-                        Error="{Binding PasswordError}" />
+					<!-- Phone Number -->
 
-
-                    <!-- Confirm Password -->
-
-                    <forms:PasswordField
-                        Label="CONFIRM PASSWORD"
-                        Placeholder="Repeat password"
-                        Text="{Binding ConfirmPassword, Mode=TwoWay}"
-                        Error="{Binding ConfirmPasswordError}" />
+					<forms:FormField
+                        Label="PHONE NUMBER"
+                        Placeholder="+989129992222"
+                        Text="{Binding PhoneNumber, Mode=TwoWay}"
+                        Error="{Binding PhoneNumberError}" />
 
                 </StackPanel>
 

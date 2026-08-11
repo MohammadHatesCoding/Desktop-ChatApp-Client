@@ -8,14 +8,14 @@ namespace HappyChat.Desktop.ViewModels.Auth;
 public sealed class CreateAccountViewModel : ViewModelBase
 {
     private readonly IAuthService _authService;
-    private string _fullName = string.Empty;
-    private string _email = string.Empty;
-    private string _password = string.Empty;
-    private string _confirmPassword = string.Empty;
-    private string _fullNameError = string.Empty;
-    private string _emailError = string.Empty;
-    private string _passwordError = string.Empty;
-    private string _confirmPasswordError = string.Empty;
+    private string _name = string.Empty;
+    private string _lastName = string.Empty;
+    private string _birthDate = string.Empty;
+    private string _phoneNumber = string.Empty;
+    private string _nameError = string.Empty;
+    private string _lastNameError = string.Empty;
+    private string _birthDateError = string.Empty;
+    private string _phoneNumberError = string.Empty;
     private string _generalError = string.Empty;
     private bool _isLoading;
 
@@ -30,79 +30,76 @@ public sealed class CreateAccountViewModel : ViewModelBase
             new RelayCommand(NavigateToLogin);
     }
 
-    public string FullName
+    public string Name
     {
-        get => _fullName;
+        get => _name;
         set
         {
-            if (SetProperty(ref _fullName, value))
+            if (SetProperty(ref _name, value))
             {
-                FullNameError = string.Empty;
+                NameError = string.Empty;
             }
         }
     }
 
-    public string Email
+    public string LastName
     {
-        get => _email;
+        get => _lastName;
         set
         {
-            if (SetProperty(ref _email, value))
+            if (SetProperty(ref _lastName, value))
             {
-                EmailError = string.Empty;
+                LastNameError = string.Empty;
             }
         }
     }
 
-    public string Password
+    public string BirthDate
     {
-        get => _password;
+        get => _birthDate;
         set
         {
-            if (SetProperty(ref _password, value))
+            if (SetProperty(ref _birthDate, value))
             {
-                PasswordError = string.Empty;
-                ConfirmPasswordError = string.Empty;
+                BirthDateError = string.Empty;
             }
         }
     }
 
-    public string ConfirmPassword
+    public string PhoneNumber
     {
-        get => _confirmPassword;
+        get => _phoneNumber;
         set
         {
-            if (SetProperty(ref _confirmPassword, value))
+            if (SetProperty(ref _phoneNumber, value))
             {
-                ConfirmPasswordError = string.Empty;
+                PhoneNumberError = string.Empty;
             }
         }
     }
 
-    public string FullNameError
+    public string NameError
     {
-        get => _fullNameError;
-        private set => SetProperty(ref _fullNameError, value);
+        get => _nameError;
+        private set => SetProperty(ref _nameError, value);
     }
 
-    public string EmailError
+    public string LastNameError
     {
-        get => _emailError;
-        private set => SetProperty(ref _emailError, value);
+        get => _lastNameError;
+        private set => SetProperty(ref _lastNameError, value);
     }
 
-    public string PasswordError
+    public string BirthDateError
     {
-        get => _passwordError;
-        private set => SetProperty(ref _passwordError, value);
+        get => _lastNameError;
+        private set => SetProperty(ref _birthDateError, value);
     }
 
-    public string ConfirmPasswordError
+    public string PhoneNumberError
     {
-        get => _confirmPasswordError;
-        private set => SetProperty(
-            ref _confirmPasswordError,
-            value);
+        get => _phoneNumberError;
+        private set => SetProperty(ref _phoneNumberError, value);
     }
 
     public string GeneralError
@@ -142,7 +139,7 @@ public sealed class CreateAccountViewModel : ViewModelBase
             IsLoading = true;
 
             var result = await _authService
-                .RegisterAsync(/*FullName, Email, Password, ConfirmPassword*/);
+                .RegisterAsync(Name, LastName, DateTime.Parse(BirthDate), PhoneNumber);
 
         }
         catch (Exception)
@@ -160,52 +157,36 @@ public sealed class CreateAccountViewModel : ViewModelBase
     {
         bool isValid = true;
 
-        FullNameError = string.Empty;
-        EmailError = string.Empty;
-        PasswordError = string.Empty;
-        ConfirmPasswordError = string.Empty;
+        NameError = string.Empty;
+        LastNameError = string.Empty;
+        BirthDateError = string.Empty;
+        PhoneNumberError = string.Empty;
 
-        if (string.IsNullOrWhiteSpace(FullName))
+        if (string.IsNullOrWhiteSpace(Name))
         {
-            FullNameError = "Full name is required.";
+            NameError = "Name is required.";
             isValid = false;
         }
 
-        if (string.IsNullOrWhiteSpace(Email))
+        if (string.IsNullOrWhiteSpace(LastName))
         {
-            EmailError = "Email address is required.";
+            LastNameError = "Last is required.";
             isValid = false;
         }
-        else if (!IsValidEmail(Email))
+        else if (string.IsNullOrWhiteSpace(BirthDate))
         {
-            EmailError = "Please enter a valid email address.";
-            isValid = false;
-        }
-
-        if (string.IsNullOrWhiteSpace(Password))
-        {
-            PasswordError = "Password is required.";
-            isValid = false;
-        }
-        else if (Password.Length < 8)
-        {
-            PasswordError =
-                "Password must contain at least 8 characters.";
-
+            BirthDateError = "Please enter a valid birth date.";
             isValid = false;
         }
 
-        if (string.IsNullOrWhiteSpace(ConfirmPassword))
+        if (string.IsNullOrWhiteSpace(PhoneNumber))
         {
-            ConfirmPasswordError =
-                "Please repeat your password.";
-
+            PhoneNumberError = "PhoneNumber is required.";
             isValid = false;
         }
-        else if (Password != ConfirmPassword)
+        else if (PhoneNumber.Length < 11 || 13 < PhoneNumber.Length)
         {
-            ConfirmPasswordError =
-                "Passwords do not match.";
+            PhoneNumberError = "PhoneNumber must contain at least 8 characters.";
 
             isValid = false;
         }
@@ -213,13 +194,13 @@ public sealed class CreateAccountViewModel : ViewModelBase
         return isValid;
     }
 
-    private static bool IsValidEmail(string email)
-    {
-        return email.Contains('@') &&
-               email.Contains('.') &&
-               email.IndexOf('@') > 0 &&
-               email.IndexOf('@') < email.Length - 1;
-    }
+    //private static bool IsValidEmail(string email)
+    //{
+    //    return email.Contains('@') &&
+    //           email.Contains('.') &&
+    //           email.IndexOf('@') > 0 &&
+    //           email.IndexOf('@') < email.Length - 1;
+    //}
 
     private void NavigateToLogin()
     {
