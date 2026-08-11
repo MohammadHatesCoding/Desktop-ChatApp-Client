@@ -3,21 +3,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="HappyChat.Desktop.Controls.Auth.AuthFooter">
 
-    <StackPanel
-        Orientation="Horizontal"
-        HorizontalAlignment="Center"
-        Spacing="4">
+	<StackPanel
+		Orientation="Horizontal"
+		HorizontalAlignment="Center"
+		VerticalAlignment="Center"
+		Spacing="6">
 
-        <TextBlock
-            Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Text}"
-            FontSize="16"
-            Foreground="{StaticResource SecondaryTextBrush}" />
+		<TextBlock
+			Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Text}"
+			FontSize="14"
+			FontWeight="Normal"
+			Foreground="{DynamicResource SecondaryTextBrush}"
+			VerticalAlignment="Center" />
 
-        <Button
-            Classes="NexusLinkButton"
-            Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=LinkText}"
-            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Command}" />
+		<Button
+			Classes="NexusLinkButton"
+			Content="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=LinkText}"
+			Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Command}"
+			VerticalContentAlignment="Center" />
 
-    </StackPanel>
+	</StackPanel>
 
 </UserControl>

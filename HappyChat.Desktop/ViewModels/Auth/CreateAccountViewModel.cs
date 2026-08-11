@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HappyChat.Application.Interfaces;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -6,22 +7,22 @@ namespace HappyChat.Desktop.ViewModels.Auth;
 
 public sealed class CreateAccountViewModel : ViewModelBase
 {
+    private readonly IAuthService _authService;
     private string _fullName = string.Empty;
     private string _email = string.Empty;
     private string _password = string.Empty;
     private string _confirmPassword = string.Empty;
-
     private string _fullNameError = string.Empty;
     private string _emailError = string.Empty;
     private string _passwordError = string.Empty;
     private string _confirmPasswordError = string.Empty;
-
     private string _generalError = string.Empty;
-
     private bool _isLoading;
 
-    public CreateAccountViewModel()
+    public CreateAccountViewModel(IAuthService authService)
     {
+        _authService = authService;
+
         CreateAccountCommand =
             new AsyncRelayCommand(CreateAccountAsync);
 
@@ -140,15 +141,9 @@ public sealed class CreateAccountViewModel : ViewModelBase
         {
             IsLoading = true;
 
-            // -------------------------------------------------
-            // TODO:
-            // اینجا در مرحله بعدی Register Use Case را صدا
-            // خواهیم زد و آن را به IAuthService متصل می‌کنیم.
-            //
-            // فعلاً فقط UI و Validation را کامل می‌کنیم.
-            // -------------------------------------------------
+            var result = await _authService
+                .RegisterAsync(/*FullName, Email, Password, ConfirmPassword*/);
 
-            await Task.Delay(500);
         }
         catch (Exception)
         {

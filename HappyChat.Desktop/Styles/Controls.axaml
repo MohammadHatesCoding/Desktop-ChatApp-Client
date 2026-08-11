@@ -2,44 +2,151 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+	<!-- ============================= -->
+	<!-- TextBox -->
+	<!-- ============================= -->
+
+	<Style Selector="TextBlock.NexusFieldLabel">
+
+		<Setter Property="FontSize" Value="13" />
+
+		<Setter Property="FontWeight" Value="SemiBold" />
+
+		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+
+	</Style>	
+	
 	<Style Selector="TextBox.NexusInput">
+
 		<Setter Property="Height" Value="56" />
+
 		<Setter Property="Padding" Value="20,0" />
+
 		<Setter Property="VerticalContentAlignment" Value="Center" />
+
 		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+
 		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+
 		<Setter Property="BorderThickness" Value="1" />
+
 		<Setter Property="FontSize" Value="16" />
+
+		<Setter Property="WatermarkForeground" Value="{DynamicResource SecondaryTextBrush}" />
+		
 		<Setter Property="CornerRadius" Value="18" />
+
 	</Style>
+
+
+	<!-- ============================= -->
+	<!-- Primary Button -->
+	<!-- ============================= -->
 
 	<Style Selector="Button.NexusPrimaryButton">
+		
 		<Setter Property="Height" Value="60" />
+		
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		
 		<Setter Property="VerticalContentAlignment" Value="Center" />
+		
 		<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+		
 		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+		
 		<Setter Property="BorderThickness" Value="0" />
+		
 		<Setter Property="FontSize" Value="16" />
+		
 		<Setter Property="FontWeight" Value="SemiBold" />
+		
 		<Setter Property="CornerRadius" Value="18" />
+	
 	</Style>
+	
+	<!-- ============================= -->
+	<!-- Button Hover -->
+	<!-- ============================= -->
 
 	<Style Selector="Button.NexusPrimaryButton:pointerover">
-		<Setter Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+
+		<Setter Property="Background"
+                Value="{DynamicResource PrimaryHoverBrush}" />
+
 	</Style>
+
+
+	<!-- ============================= -->
+	<!-- Button Pressed -->
+	<!-- ============================= -->
 
 	<Style Selector="Button.NexusPrimaryButton:pressed">
-		<Setter Property="Background" Value="{DynamicResource PrimaryPressedBrush}" />
+
+		<Setter Property="Background"
+                Value="{DynamicResource PrimaryPressedBrush}" />
+
 	</Style>
+
+
+	<!-- ============================= -->
+	<!-- Auth Link -->
+	<!-- ============================= -->
 
 	<Style Selector="Button.NexusLinkButton">
+
 		<Setter Property="Background" Value="Transparent" />
+
 		<Setter Property="BorderThickness" Value="0" />
+
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryHoverBrush}" />
-		<Setter Property="FontSize" Value="16" />
+
+		<Setter Property="FontSize" Value="14" />
+
+		<Setter Property="FontWeight" Value="SemiBold" />
+
 		<Setter Property="Padding" Value="0" />
+
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+
 	</Style>
 
+	<!-- ============================= -->
+	<!-- Auth Title -->
+	<!-- ============================= -->
+
+	<Style Selector="TextBlock.AuthTitleStyle">
+		
+		<Setter Property="FontSize" Value="30" />
+		
+		<Setter Property="FontWeight" Value="SemiBold" />
+	
+		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+		
+		<Setter Property="HorizontalAlignment" Value="Center" />
+	
+	</Style>
+
+	<!-- ============================= -->
+	<!-- Auth Subtitle -->
+	<!-- ============================= -->
+
+	<Style Selector="TextBlock.AuthSubtitleStyle">
+		
+		<Setter Property="FontSize" Value="15" />
+		
+		<Setter Property="FontWeight" Value="Normal" />
+		
+		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+		
+		<Setter Property="HorizontalAlignment" Value="Center" />
+	
+	</Style>
+	
 </Styles>

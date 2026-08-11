@@ -6,10 +6,10 @@
 
 	<StackPanel Spacing="8">
 
-		<TextBlock
-            Text="{Binding Label, ElementName=Root}" />
-
+		<TextBlock Classes="NexusFieldLabel" Text="{Binding Label, ElementName=Root}" />
+    
 		<TextBox
+            Classes="NexusInput"
             Text="{Binding Text, ElementName=Root, Mode=TwoWay}"
             Watermark="{Binding Placeholder, ElementName=Root}" />
 
