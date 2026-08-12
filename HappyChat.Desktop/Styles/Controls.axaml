@@ -4,17 +4,7 @@
 
 	<!-- ============================= -->
 	<!-- TextBox -->
-	<!-- ============================= -->
-
-	<Style Selector="TextBlock.NexusFieldLabel">
-
-		<Setter Property="FontSize" Value="13" />
-
-		<Setter Property="FontWeight" Value="SemiBold" />
-
-		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-
-	</Style>	
+	<!-- ============================= -->	
 	
 	<Style Selector="TextBox.NexusInput">
 
@@ -40,6 +30,59 @@
 
 	</Style>
 
+
+	<!-- ================================================= -->
+	<!-- TextBox Error State                               -->
+	<!-- ================================================= -->
+
+	<Style Selector="TextBox.NexusInput.error">
+
+		<Setter Property="BorderBrush"
+				Value="{DynamicResource ErrorBrush}" />
+
+		<Setter Property="BorderThickness"
+				Value="1" />
+
+	</Style>
+
+
+	<!-- Keep error border red while focused -->
+
+	<Style Selector="TextBox.NexusInput.error:focus">
+
+		<Setter Property="BorderBrush"
+				Value="{DynamicResource ErrorBrush}" />
+
+	</Style>
+
+
+	<!-- ============================= -->
+	<!-- FormField -->
+	<!-- ============================= -->	
+	
+	<Style Selector="TextBlock.NexusFieldLabel">
+
+		<Setter Property="FontSize" Value="13" />
+
+		<Setter Property="FontWeight" Value="SemiBold" />
+
+		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+
+	</Style>
+
+	<!-- ================================================= -->
+	<!-- Field Error                                       -->
+	<!-- ================================================= -->
+
+	<Style Selector="TextBlock.NexusFieldError">
+
+		<Setter Property="FontSize"
+				Value="12" />
+
+		<Setter Property="Foreground"
+				Value="{DynamicResource ErrorBrush}" />
+
+	</Style>
 
 	<!-- ============================= -->
 	<!-- Primary Button -->
@@ -79,6 +122,49 @@
                 Value="{DynamicResource PrimaryHoverBrush}" />
 
 	</Style>
+
+	<!-- ============================= -->
+	<!-- Social Login Buttons -->
+	<!-- ============================= -->
+
+	<Style Selector="Button.NexusSocialButton">
+
+		<Setter Property="Height" Value="52" />
+
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+
+		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+
+		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+
+		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+
+		<Setter Property="BorderThickness" Value="1" />
+
+		<Setter Property="CornerRadius" Value="16" />
+
+		<Setter Property="FontSize" Value="16" />
+
+		<Setter Property="FontWeight" Value="SemiBold" />
+
+		<Setter Property="Padding" Value="20,0" />
+
+	</Style>
+
+
+	<Style Selector="Button.SocialLoginButton:pointerover">
+
+		<Setter Property="Background"
+				Value="{DynamicResource CardBrush}" />
+
+		<Setter Property="BorderBrush"
+				Value="{DynamicResource PrimaryBrush}" />
+
+	</Style>	
 
 
 	<!-- ============================= -->
@@ -147,6 +233,30 @@
 		
 		<Setter Property="HorizontalAlignment" Value="Center" />
 	
+	</Style>
+
+
+	<!-- ============================= -->
+	<!-- Auth Devider Style -->
+	<!-- ============================= -->
+
+	<Style Selector="TextBlock.AuthDividerTextStyle">
+
+		<Setter Property="FontSize"
+				Value="12" />
+
+		<Setter Property="Foreground"
+				Value="{DynamicResource SecondaryTextBrush}" />
+
+		<Setter Property="FontWeight"
+				Value="Normal" />
+
+		<Setter Property="HorizontalAlignment"
+				Value="Center" />
+
+		<Setter Property="VerticalAlignment"
+				Value="Center" />
+
 	</Style>
 	
 </Styles>

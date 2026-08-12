@@ -1,4 +1,7 @@
 ﻿using Avalonia;
+using HappyChat.Application.Interfaces;
+using HappyChat.Desktop.Services;
+using HappyChat.Desktop.ViewModels.Auth;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -15,16 +18,19 @@ internal static class Program
 
         services.AddInfrastructure();
 
-        services.AddTransient<
-            Views.MainWindow>();
+        services.AddSingleton<INavigationService, NavigationService>();
 
-        services.AddTransient<
-            ViewModels.Auth.CreateAccountViewModel>();
+        services.AddTransient<Views.MainWindow>();
+
+        services.AddTransient<CreateAccountViewModel>();
+        
+        services.AddTransient<LoginViewModel>();
+
+        services.AddTransient<LoginViewModel>();
 
         Services = services.BuildServiceProvider();
 
-        BuildAvaloniaApp()
-            .StartWithClassicDesktopLifetime(args);
+        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
     public static AppBuilder BuildAvaloniaApp()

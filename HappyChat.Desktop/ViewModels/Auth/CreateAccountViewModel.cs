@@ -1,4 +1,6 @@
 ﻿using HappyChat.Application.Interfaces;
+using HappyChat.Desktop.Commands;
+using HappyChat.Desktop.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,6 +10,7 @@ namespace HappyChat.Desktop.ViewModels.Auth;
 public sealed class CreateAccountViewModel : ViewModelBase
 {
     private readonly IAuthService _authService;
+    private readonly INavigationService _navigationService;
     private string _name = string.Empty;
     private string _lastName = string.Empty;
     private string _birthDate = string.Empty;
@@ -19,15 +22,15 @@ public sealed class CreateAccountViewModel : ViewModelBase
     private string _generalError = string.Empty;
     private bool _isLoading;
 
-    public CreateAccountViewModel(IAuthService authService)
+    public CreateAccountViewModel(IAuthService authService, INavigationService navigationService)
     {
         _authService = authService;
+        
+        _navigationService = navigationService;
 
-        CreateAccountCommand =
-            new AsyncRelayCommand(CreateAccountAsync);
+        CreateAccountCommand = new AsyncRelayCommand(CreateAccountAsync);
 
-        NavigateToLoginCommand =
-            new RelayCommand(NavigateToLogin);
+        NavigateToSignInCommand = new RelayCommand(NavigateToSignIn);
     }
 
     public string Name
@@ -92,7 +95,7 @@ public sealed class CreateAccountViewModel : ViewModelBase
 
     public string BirthDateError
     {
-        get => _lastNameError;
+        get => _birthDateError;
         private set => SetProperty(ref _birthDateError, value);
     }
 
@@ -125,7 +128,7 @@ public sealed class CreateAccountViewModel : ViewModelBase
 
     public ICommand CreateAccountCommand { get; }
 
-    public ICommand NavigateToLoginCommand { get; }
+    public ICommand NavigateToSignInCommand { get; }
 
     private async Task CreateAccountAsync()
     {
@@ -170,10 +173,11 @@ public sealed class CreateAccountViewModel : ViewModelBase
 
         if (string.IsNullOrWhiteSpace(LastName))
         {
-            LastNameError = "Last is required.";
+            LastNameError = "Last name is required.";
             isValid = false;
         }
-        else if (string.IsNullOrWhiteSpace(BirthDate))
+        
+        if (string.IsNullOrWhiteSpace(BirthDate))
         {
             BirthDateError = "Please enter a valid birth date.";
             isValid = false;
@@ -194,105 +198,8 @@ public sealed class CreateAccountViewModel : ViewModelBase
         return isValid;
     }
 
-    //private static bool IsValidEmail(string email)
-    //{
-    //    return email.Contains('@') &&
-    //           email.Contains('.') &&
-    //           email.IndexOf('@') > 0 &&
-    //           email.IndexOf('@') < email.Length - 1;
-    //}
-
-    private void NavigateToLogin()
+    private void NavigateToSignIn()
     {
-        // Navigation Service در مرحله بعدی اینجا قرار می‌گیرد.
-    }
-}
-
-
-// ---------------------------------------------------------
-// Simple ICommand
-// ---------------------------------------------------------
-
-public sealed class RelayCommand : ICommand
-{
-    private readonly Action _execute;
-    private readonly Func<bool>? _canExecute;
-
-    public RelayCommand(
-        Action execute,
-        Func<bool>? canExecute = null)
-    {
-        _execute = execute;
-        _canExecute = canExecute;
-    }
-
-    public event EventHandler? CanExecuteChanged;
-
-    public bool CanExecute(object? parameter)
-    {
-        return _canExecute?.Invoke() ?? true;
-    }
-
-    public void Execute(object? parameter)
-    {
-        _execute();
-    }
-
-    public void RaiseCanExecuteChanged()
-    {
-        CanExecuteChanged?.Invoke(
-            this,
-            EventArgs.Empty);
-    }
-}
-
-
-// ---------------------------------------------------------
-// Async ICommand
-// ---------------------------------------------------------
-
-public sealed class AsyncRelayCommand : ICommand
-{
-    private readonly Func<Task> _execute;
-    private bool _isExecuting;
-
-    public AsyncRelayCommand(Func<Task> execute)
-    {
-        _execute = execute;
-    }
-
-    public event EventHandler? CanExecuteChanged;
-
-    public bool CanExecute(object? parameter)
-    {
-        return !_isExecuting;
-    }
-
-    public async void Execute(object? parameter)
-    {
-        if (_isExecuting)
-            return;
-
-        try
-        {
-            _isExecuting = true;
-
-            RaiseCanExecuteChanged();
-
-            await _execute();
-        }
-        finally
-        {
-            _isExecuting = false;
-
-            RaiseCanExecuteChanged();
-        }
-    }
-
-    public void RaiseCanExecuteChanged()
-    {
-        CanExecuteChanged?.Invoke(
-            this,
-            EventArgs.Empty);
+        _navigationService.NavigateTo<LoginViewModel>();
     }
 }

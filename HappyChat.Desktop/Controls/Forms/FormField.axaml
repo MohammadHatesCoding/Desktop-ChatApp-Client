@@ -6,14 +6,26 @@
 
 	<StackPanel Spacing="8">
 
-		<TextBlock Classes="NexusFieldLabel" Text="{Binding Label, ElementName=Root}" />
-    
+		<!-- Label -->
+
+		<TextBlock
+            Classes="NexusFieldLabel"
+            Text="{Binding Label, ElementName=Root}" />
+
+
+		<!-- Input -->
+
 		<TextBox
             Classes="NexusInput"
             Text="{Binding Text, ElementName=Root, Mode=TwoWay}"
-            Watermark="{Binding Placeholder, ElementName=Root}" />
+            Watermark="{Binding Placeholder, ElementName=Root}"
+            Classes.error="{Binding HasError, ElementName=Root}" />
+
+
+		<!-- Error -->
 
 		<TextBlock
+            Classes="NexusFieldError"
             Text="{Binding Error, ElementName=Root}"
             IsVisible="{Binding HasError, ElementName=Root}" />
 

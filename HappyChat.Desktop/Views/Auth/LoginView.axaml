@@ -1,0 +1,145 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:common="using:HappyChat.Desktop.Controls.Common"
+    xmlns:forms="using:HappyChat.Desktop.Controls.Forms"
+    xmlns:auth="using:HappyChat.Desktop.Controls.Auth"
+
+    x:Class="HappyChat.Desktop.Views.Auth.LoginView">
+
+	<Grid>
+
+		<!-- Background -->
+
+		<common:NexusBackground />
+
+
+		<!-- Logo -->
+
+		<common:NexusLogo
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="48,35,0,0" />
+
+
+		<!-- Login Card -->
+
+		<auth:AuthCard
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+			<StackPanel>
+
+				<!-- Header -->
+
+				<TextBlock
+                    Text="Welcome back"
+                    Classes="AuthTitleStyle" />
+
+				<TextBlock
+                    Text="Sign in to continue to Nexus"
+                    Classes="AuthSubtitleStyle"
+                    Margin="0,10,0,0" />
+
+
+				<!-- Form -->
+
+				<StackPanel
+                    Margin="0,42,0,0"
+                    Spacing="20">
+
+					<forms:FormField
+                        Label="PHONE NUMBER"
+                        Placeholder="+989129992222"
+                        Text="{Binding PhoneNumber, Mode=TwoWay}"
+                        Error="{Binding PhoneNumberError}" />
+
+				</StackPanel>
+
+
+				<!-- Sign In -->
+
+				<common:PrimaryButton
+                    Margin="0,30,0,0"
+                    Text="Sign In"
+                    Command="{Binding LoginCommand}" />
+
+
+				<!-- General Error -->
+
+				<TextBlock
+                    Text="{Binding GeneralError}"
+                    Foreground="{StaticResource ErrorBrush}"
+                    FontSize="13"
+                    HorizontalAlignment="Center"
+                    TextWrapping="Wrap"
+                    Margin="0,12,0,0"
+                    IsVisible="{Binding GeneralError}" />
+
+
+				<!-- Social Login -->
+
+				<Grid
+                    Margin="0,30,0,0">
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+
+					<Border
+                        Grid.Column="0"
+                        Height="1"
+                        Background="{DynamicResource BorderBrush}"
+                        VerticalAlignment="Center" />
+
+					<TextBlock
+                        Grid.Column="1"
+                        Text="OR CONTINUE WITH"
+                        Classes="AuthDividerTextStyle"
+                        Margin="18,0" />
+
+					<Border
+                        Grid.Column="2"
+                        Height="1"
+                        Background="{DynamicResource BorderBrush}"
+                        VerticalAlignment="Center" />
+
+				</Grid>
+
+
+				<Grid
+					ColumnDefinitions="*,*"
+					ColumnSpacing="14"
+					Margin="0,20,0,0">
+
+					<Button
+						Grid.Column="0"
+						Classes="NexusSocialButton"
+						Content="G  Google" />
+
+					<Button
+						Grid.Column="1"
+						Classes="NexusSocialButton"
+						Content="⌁  GitHub" />
+
+				</Grid>
+
+
+				<!-- Footer -->
+
+				<auth:AuthFooter
+                    Margin="0,32,0,0"
+                    Text="Don't have an account?"
+                    LinkText="Sign up"
+                    Command="{Binding NavigateToSignUpCommand}" />
+
+			</StackPanel>
+
+		</auth:AuthCard>
+
+	</Grid>
+
+</UserControl>

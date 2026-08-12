@@ -126,8 +126,8 @@
                 <auth:AuthFooter
                     Margin="0,32,0,0"
                     Text="Already have an account?"
-                    LinkText="Login"
-                    Command="{Binding NavigateToLoginCommand}" />
+                    LinkText="Sign In"
+                    Command="{Binding NavigateToSignInCommand}" />
 
             </StackPanel>
 

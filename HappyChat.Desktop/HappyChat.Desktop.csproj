@@ -42,5 +42,10 @@
 		<ProjectReference Include="..\HappyChat.Infrastructure\HappyChat.Infrastructure.csproj" />
 
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Views\Auth\LoginView.axaml.cs">
+	    <DependentUpon>LoginView.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 
 </Project>

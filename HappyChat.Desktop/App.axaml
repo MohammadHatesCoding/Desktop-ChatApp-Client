@@ -1,7 +1,12 @@
 <Application
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="HappyChat.Desktop.App">
+    xmlns:services="using:HappyChat.Desktop.Services"
+	x:Class="HappyChat.Desktop.App">
+
+	<Application.DataTemplates>
+		<services:ViewLocator />
+	</Application.DataTemplates>
 
 	<Application.Styles>
 		<FluentTheme />
