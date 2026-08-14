@@ -1,0 +1,241 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:common="using:HappyChat.Desktop.Controls.Common"
+
+    x:Class="HappyChat.Desktop.Views.Auth.VerifyOtpView">
+
+
+	<Grid>
+
+		<!-- ================================================= -->
+		<!-- Background -->
+		<!-- ================================================= -->
+
+		<common:NexusOtpBackground />
+
+		<!-- ================================================= -->
+		<!-- Logo -->
+		<!-- ================================================= -->
+
+		<common:NexusLogo
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="48,35,0,0" />
+
+
+		<!-- ================================================= -->
+		<!-- Main OTP Content -->
+		<!-- No Card - matches Figma -->
+		<!-- ================================================= -->
+
+		<StackPanel
+            Width="620"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+
+			<!-- ============================================= -->
+			<!-- Verification Icon -->
+			<!-- ============================================= -->
+
+			<Border
+                Width="70"
+                Height="70"
+                HorizontalAlignment="Center"
+                CornerRadius="20"
+                Background="#101827"
+                BorderBrush="{DynamicResource PrimaryBrush}"
+                BorderThickness="1">
+
+				<TextBlock
+                    Text="✓"
+                    FontSize="32"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource PrimaryBrush}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+
+			</Border>
+
+
+			<!-- ============================================= -->
+			<!-- Title -->
+			<!-- ============================================= -->
+
+			<TextBlock
+                Text="Verify your identity"
+                Classes="AuthTitleStyle"
+                Margin="0,26,0,0" />
+
+
+			<!-- ============================================= -->
+			<!-- Subtitle -->
+			<!-- ============================================= -->
+
+			<TextBlock
+                Text="Enter the 6-digit code sent to your phone"
+                Classes="AuthSubtitleStyle"
+                Margin="0,10,0,0" />
+
+
+			<!-- ============================================= -->
+			<!-- Phone Number -->
+			<!-- ============================================= -->
+
+			<TextBlock
+                Text="{Binding PhoneNumber}"
+                Foreground="{DynamicResource PrimaryHoverBrush}"
+                FontSize="15"
+                FontWeight="SemiBold"
+                HorizontalAlignment="Center"
+                Margin="0,14,0,0" />
+
+
+			<!-- ============================================= -->
+			<!-- OTP Area -->
+			<!-- ============================================= -->
+
+			<Grid Width="520"
+				  Height="110"
+				  HorizontalAlignment="Center">
+
+				<!-- ========================================= -->
+				<!-- OTP Circular Glow                        -->
+				<!-- ========================================= -->
+
+				<Ellipse
+					Width="520"
+					Height="520"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					IsHitTestVisible="False"
+					Opacity="0.55">
+
+					<Ellipse.Fill>
+
+						<RadialGradientBrush
+							Center="50%,50%"
+							GradientOrigin="50%,50%">
+
+							<GradientStop
+								Offset="0"
+								Color="#352563EB" />
+
+							<GradientStop
+								Offset="0.25"
+								Color="#282563EB" />
+
+							<GradientStop
+								Offset="0.50"
+								Color="#182563EB" />
+
+							<GradientStop
+								Offset="0.72"
+								Color="#0A2563EB" />
+
+							<GradientStop
+								Offset="1"
+								Color="#002563EB" />
+
+						</RadialGradientBrush>
+
+					</Ellipse.Fill>
+
+				</Ellipse>
+
+
+				<!-- ========================================= -->
+				<!-- OTP Boxes                                -->
+				<!-- ========================================= -->
+
+				<StackPanel
+					Orientation="Horizontal"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Spacing="12">
+
+					<TextBox
+						Classes="OtpInput"
+						Text="{Binding Digit1, Mode=TwoWay}" />
+
+					<TextBox
+						Classes="OtpInput"
+						Text="{Binding Digit2, Mode=TwoWay}" />
+
+					<TextBox
+						Classes="OtpInput"
+						Text="{Binding Digit3, Mode=TwoWay}" />
+
+					<TextBox
+						Classes="OtpInput"
+						Text="{Binding Digit4, Mode=TwoWay}" />
+
+					<TextBox
+						Classes="OtpInput"
+						Text="{Binding Digit5, Mode=TwoWay}" />
+
+					<TextBox
+						Classes="OtpInput"
+						Text="{Binding Digit6, Mode=TwoWay}" />
+
+				</StackPanel>
+
+			</Grid>
+
+
+			<!-- ============================================= -->
+			<!-- OTP Error -->
+			<!-- ============================================= -->
+
+			<TextBlock
+                Text="{Binding OtpError}"
+                Foreground="{DynamicResource ErrorBrush}"
+                FontSize="12"
+                HorizontalAlignment="Center"
+                TextWrapping="Wrap"
+                Margin="0,10,0,0"
+                IsVisible="{Binding OtpError}" />
+
+
+			<!-- ============================================= -->
+			<!-- Verify Button -->
+			<!-- ============================================= -->
+
+			<common:PrimaryButton
+                Width="500"
+                HorizontalAlignment="Center"
+                Margin="0,30,0,0"
+                Text="Verify Code"
+                Command="{Binding VerifyCommand}" />
+
+
+			<!-- ============================================= -->
+			<!-- Countdown -->
+			<!-- ============================================= -->
+
+			<TextBlock
+                Text="{Binding CountdownText}"
+                Foreground="{DynamicResource SecondaryTextBrush}"
+                FontSize="13"
+                HorizontalAlignment="Center"
+                Margin="0,26,0,0" />
+
+
+			<!-- ============================================= -->
+			<!-- Back To Login -->
+			<!-- ============================================= -->
+
+			<Button
+                Content="← Back to login"
+                Classes="NexusLinkButton"
+                Command="{Binding BackToLoginCommand}"
+                HorizontalAlignment="Center"
+                Margin="0,22,0,0" />
+
+		</StackPanel>
+
+	</Grid>
+
+</UserControl>

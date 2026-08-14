@@ -1,0 +1,71 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Common.NexusOtpBackground">
+
+	<Grid>
+
+		<!-- Base -->
+		<Border
+            Background="{StaticResource BackgroundBrush}" />
+
+		<!-- Grid -->
+		<Canvas
+            x:Name="GridCanvas"
+            IsHitTestVisible="False" />
+
+		<Grid
+			Width="700"
+			Height="500"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+			IsHitTestVisible="False">
+
+			<!-- Soft circular blue glow -->
+
+			<Ellipse
+				Width="420"
+				Height="420"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Opacity="0.35">
+
+				<Ellipse.Fill>
+
+					<RadialGradientBrush
+						Center="0.5,0.5"
+						GradientOrigin="0.5,0.5">
+
+						<!-- Very subtle center -->
+						<GradientStop
+							Offset="0"
+							Color="#252563EB" />
+
+						<GradientStop
+							Offset="0.25"
+							Color="#182563EB" />
+
+						<GradientStop
+							Offset="0.50"
+							Color="#0C2563EB" />
+
+						<GradientStop
+							Offset="0.75"
+							Color="#042563EB" />
+
+						<!-- Completely transparent edge -->
+						<GradientStop
+							Offset="1"
+							Color="#002563EB" />
+
+					</RadialGradientBrush>
+
+				</Ellipse.Fill>
+
+			</Ellipse>
+
+		</Grid>		
+		
+	</Grid>
+
+</UserControl>

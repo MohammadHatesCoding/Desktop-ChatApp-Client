@@ -84,6 +84,66 @@
 
 	</Style>
 
+
+	<!-- ============================= -->
+	<!-- OTP Input -->
+	<!-- ============================= -->
+
+	<Style Selector="TextBox.OtpInput">
+
+		<Setter Property="Width"
+				Value="54" />
+
+		<Setter Property="Height"
+				Value="60" />
+
+		<Setter Property="Background"
+				Value="#11151C" />
+
+		<Setter Property="Foreground"
+				Value="{DynamicResource TextBrush}" />
+
+		<Setter Property="BorderBrush"
+				Value="#2A3445" />
+
+		<Setter Property="BorderThickness"
+				Value="1" />
+
+		<Setter Property="CornerRadius"
+				Value="16" />
+
+		<Setter Property="FontSize"
+				Value="22" />
+
+		<Setter Property="FontWeight"
+				Value="SemiBold" />
+
+		<Setter Property="HorizontalContentAlignment"
+				Value="Center" />
+
+		<Setter Property="VerticalContentAlignment"
+				Value="Center" />
+
+		<Setter Property="Padding"
+				Value="0" />
+
+	</Style>
+
+
+	<!-- ============================= -->
+	<!-- OTP Focus -->
+	<!-- ============================= -->
+
+	<Style Selector="TextBox.OtpInput:focus">
+
+		<Setter Property="BorderBrush"
+				Value="{DynamicResource PrimaryBrush}" />
+
+		<Setter Property="BorderThickness"
+				Value="1" />
+
+	</Style>
+	
 	<!-- ============================= -->
 	<!-- Primary Button -->
 	<!-- ============================= -->

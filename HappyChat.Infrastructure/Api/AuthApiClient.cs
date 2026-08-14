@@ -1,4 +1,5 @@
-﻿using HappyChat.Application.Interfaces;
+﻿using HappyChat.Application.DTOs;
+using HappyChat.Application.Interfaces;
 using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Reflection.Metadata;
@@ -30,5 +31,16 @@ public class AuthApiClient : IAuthService
         var content = await response.Content.ReadAsStringAsync();
 
         return response.IsSuccessStatusCode;
+    }
+
+    public async Task<CheckOTPResponse?> CheckOTPAsync(string phoneNumber, string otp)
+    {
+        var response = await _http.PostAsJsonAsync("User/CheckOTP", new { phoneNumber, otp });
+
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        return await response.Content
+            .ReadFromJsonAsync<CheckOTPResponse>();
     }
 }

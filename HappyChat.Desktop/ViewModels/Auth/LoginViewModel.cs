@@ -11,16 +11,19 @@ public sealed class LoginViewModel : ViewModelBase
 {
     private readonly IAuthService _authService;
     private readonly INavigationService _navigationService;
+    private readonly IAuthSession _authSession;
     private string _phoneNumber = string.Empty;
     private string _phoneNumberError = string.Empty;
     private string _generalError = string.Empty;
     private bool _isLoading;
 
-    public LoginViewModel(IAuthService authService, INavigationService navigationService)
+    public LoginViewModel(IAuthService authService, INavigationService navigationService, IAuthSession authSession)
     {
         _authService = authService;
 
         _navigationService = navigationService;
+
+        _authSession = authSession;
 
         LoginCommand = new AsyncRelayCommand(LoginAsync);
 
@@ -80,6 +83,14 @@ public sealed class LoginViewModel : ViewModelBase
             IsLoading = true;
 
             var result = await _authService.LoginAsync(PhoneNumber);
+
+
+            if (result)
+            {
+                _authSession.SetPhoneNumber(PhoneNumber);
+
+                _navigationService.NavigateTo<VerifyOtpViewModel>();
+            }
 
         }
         catch (Exception)

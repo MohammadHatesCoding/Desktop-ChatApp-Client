@@ -11,6 +11,7 @@ public sealed class CreateAccountViewModel : ViewModelBase
 {
     private readonly IAuthService _authService;
     private readonly INavigationService _navigationService;
+    private readonly IAuthSession _authSession;
     private string _name = string.Empty;
     private string _lastName = string.Empty;
     private string _birthDate = string.Empty;
@@ -22,11 +23,13 @@ public sealed class CreateAccountViewModel : ViewModelBase
     private string _generalError = string.Empty;
     private bool _isLoading;
 
-    public CreateAccountViewModel(IAuthService authService, INavigationService navigationService)
+    public CreateAccountViewModel(IAuthService authService, INavigationService navigationService, IAuthSession authSession)
     {
         _authService = authService;
         
         _navigationService = navigationService;
+
+        _authSession = authSession;
 
         CreateAccountCommand = new AsyncRelayCommand(CreateAccountAsync);
 
@@ -141,9 +144,14 @@ public sealed class CreateAccountViewModel : ViewModelBase
         {
             IsLoading = true;
 
-            var result = await _authService
-                .RegisterAsync(Name, LastName, DateTime.Parse(BirthDate), PhoneNumber);
+            var result = await _authService.RegisterAsync(Name, LastName, DateTime.Parse(BirthDate), PhoneNumber);
 
+            if (result)
+            {
+                _authSession.SetPhoneNumber(PhoneNumber);
+
+                _navigationService.NavigateTo<VerifyOtpViewModel>();
+            }
         }
         catch (Exception)
         {
