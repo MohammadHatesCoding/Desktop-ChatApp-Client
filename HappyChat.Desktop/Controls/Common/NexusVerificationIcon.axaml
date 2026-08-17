@@ -1,0 +1,99 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Common.NexusVerificationIcon"
+    Width="64"
+    Height="64">
+
+	<Grid
+        Width="64"
+        Height="64">
+
+		<!-- ================================================= -->
+		<!-- Main Container -->
+		<!-- ================================================= -->
+
+		<Border
+            Width="64"
+            Height="64"
+            CornerRadius="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            BorderThickness="1"
+            BorderBrush="#4D2563EB">
+
+			<Border.Background>
+				<LinearGradientBrush
+                    StartPoint="0,0"
+                    EndPoint="1,1">
+
+					<GradientStop
+                        Offset="0"
+                        Color="#332563EB" />
+
+					<GradientStop
+                        Offset="1"
+                        Color="#1A1D4ED8" />
+
+				</LinearGradientBrush>
+			</Border.Background>
+
+		</Border>
+
+
+		<!-- ================================================= -->
+		<!-- Shield -->
+		<!-- ================================================= -->
+
+		<Path
+            Width="26"
+            Height="26"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="0,1,0,0"
+            Stretch="Uniform"
+
+            Fill="Transparent"
+            Stroke="#60A5FA"
+            StrokeThickness="2.5"
+            StrokeLineCap="Round"
+            StrokeJoin="Round"
+
+            Data="M12 2L20 5V11C20 16.5 16.5 21 12 22C7.5 21 4 16.5 4 11V5L12 2Z" />
+
+
+		<!-- ================================================= -->
+		<!-- Green Check Badge -->
+		<!-- ================================================= -->
+
+		<Border
+            Width="16"
+            Height="16"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,-1,-1,0"
+            CornerRadius="8"
+            Background="#10B981"
+            BorderBrush="#0A0A0A"
+            BorderThickness="2">
+
+			<Path
+                Width="8"
+                Height="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="Uniform"
+
+                Fill="Transparent"
+                Stroke="White"
+                StrokeThickness="1.5"
+                StrokeLineCap="Round"
+                StrokeJoin="Round"
+
+                Data="M3 8L6 11L13 4" />
+
+		</Border>
+
+	</Grid>
+
+</UserControl>

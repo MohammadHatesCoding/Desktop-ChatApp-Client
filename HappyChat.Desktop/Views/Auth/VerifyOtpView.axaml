@@ -40,24 +40,8 @@
 			<!-- Verification Icon -->
 			<!-- ============================================= -->
 
-			<Border
-                Width="70"
-                Height="70"
-                HorizontalAlignment="Center"
-                CornerRadius="20"
-                Background="#101827"
-                BorderBrush="{DynamicResource PrimaryBrush}"
-                BorderThickness="1">
-
-				<TextBlock
-                    Text="✓"
-                    FontSize="32"
-                    FontWeight="Bold"
-                    Foreground="{DynamicResource PrimaryBrush}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
-
-			</Border>
+			<common:NexusVerificationIcon
+				HorizontalAlignment="Center" />
 
 
 			<!-- ============================================= -->
@@ -158,27 +142,46 @@
 
 					<TextBox
 						Classes="OtpInput"
-						Text="{Binding Digit1, Mode=TwoWay}" />
+						MaxLength="1"
+						Text="{Binding Digit1, Mode=TwoWay}"
+						TextChanged="OtpTextChanged"
+						KeyDown="OtpKeyDown" />
+
 
 					<TextBox
 						Classes="OtpInput"
-						Text="{Binding Digit2, Mode=TwoWay}" />
+						MaxLength="1"						
+						Text="{Binding Digit2, Mode=TwoWay}"
+						TextChanged="OtpTextChanged"
+						KeyDown="OtpKeyDown" />
 
 					<TextBox
 						Classes="OtpInput"
-						Text="{Binding Digit3, Mode=TwoWay}" />
+						MaxLength="1"						
+						Text="{Binding Digit3, Mode=TwoWay}"
+						TextChanged="OtpTextChanged"
+						KeyDown="OtpKeyDown" />
 
 					<TextBox
 						Classes="OtpInput"
-						Text="{Binding Digit4, Mode=TwoWay}" />
+						MaxLength="1"						
+						Text="{Binding Digit4, Mode=TwoWay}"
+						TextChanged="OtpTextChanged"
+						KeyDown="OtpKeyDown" />
 
 					<TextBox
 						Classes="OtpInput"
-						Text="{Binding Digit5, Mode=TwoWay}" />
+						MaxLength="1"						
+						Text="{Binding Digit5, Mode=TwoWay}"
+						TextChanged="OtpTextChanged"
+						KeyDown="OtpKeyDown" />
 
 					<TextBox
 						Classes="OtpInput"
-						Text="{Binding Digit6, Mode=TwoWay}" />
+						MaxLength="1"						
+						Text="{Binding Digit6, Mode=TwoWay}"
+						TextChanged="OtpTextChanged"
+						KeyDown="OtpKeyDown" />
 
 				</StackPanel>
 

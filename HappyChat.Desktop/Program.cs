@@ -29,8 +29,6 @@ internal static class Program
         
         services.AddTransient<LoginViewModel>();
 
-        services.AddTransient<LoginViewModel>();
-
         services.AddTransient<VerifyOtpViewModel>();
 
         Services = services.BuildServiceProvider();
