@@ -3,6 +3,7 @@ using HappyChat.Application.DTOs;
 using HappyChat.Application.Interfaces;
 using HappyChat.Desktop.Commands;
 using HappyChat.Desktop.Services;
+using HappyChat.Desktop.ViewModels.Chat;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -228,8 +229,7 @@ public sealed class VerifyOtpViewModel : ViewModelBase
 
             StopCountdown();
 
-            // مرحله بعدی:
-            // Navigate to Chat/Main application
+            _navigationService.NavigateTo<ChatViewModel>();
         }
         catch (Exception)
         {

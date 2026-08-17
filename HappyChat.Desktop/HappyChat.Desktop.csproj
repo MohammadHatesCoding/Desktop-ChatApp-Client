@@ -13,6 +13,9 @@
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
+	<ItemGroup>
+	  <AvaloniaXaml Remove="Controls\Common\MessageBubble.axaml" />
+	</ItemGroup>
 
 	<!-- NuGet Packages -->
 	<ItemGroup>

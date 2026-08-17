@@ -1,0 +1,54 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Chat.MessageInputBar"
+    x:Name="Root">
+
+	<Border
+        Height="80"
+        Background="{DynamicResource BackgroundSecondaryBrush}"
+        BorderBrush="{DynamicResource BorderBrush}"
+        BorderThickness="0,1,0,0"
+        Padding="24,0">
+
+		<Grid ColumnDefinitions="Auto,*,Auto">
+
+			<Button
+                Grid.Column="0"
+                Classes="NexusIconButton"
+                Content="📎"
+                Command="{Binding AttachCommand, ElementName=Root}" />
+
+			<TextBox
+                Grid.Column="1"
+                Classes="NexusChatInput"
+                Text="{Binding Text, ElementName=Root, Mode=TwoWay}"
+                Watermark="Type a message..."
+                Margin="14,0" />
+
+			<StackPanel
+                Grid.Column="2"
+                Orientation="Horizontal"
+                Spacing="14"
+                VerticalAlignment="Center">
+
+				<Button
+                    Classes="NexusIconButton"
+                    Content="🙂" />
+
+				<Button
+                    Classes="NexusIconButton"
+                    Content="🎙" />
+
+				<Button
+                    Classes="NexusSendButton"
+                    Content="➤"
+                    Command="{Binding SendCommand, ElementName=Root}" />
+
+			</StackPanel>
+
+		</Grid>
+
+	</Border>
+
+</UserControl>

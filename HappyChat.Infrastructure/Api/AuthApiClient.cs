@@ -35,7 +35,7 @@ public class AuthApiClient : IAuthService
 
     public async Task<CheckOTPResponse?> CheckOTPAsync(string phoneNumber, string otp)
     {
-        var response = await _http.PostAsJsonAsync("User/CheckOTP", new { phoneNumber, otp });
+        var response = await _http.PostAsJsonAsync("User/CheckOtp", new { command = new { phoneNumber, otp } });
 
         if (!response.IsSuccessStatusCode)
             return null;

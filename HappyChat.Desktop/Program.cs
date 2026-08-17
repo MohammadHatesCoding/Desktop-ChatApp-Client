@@ -2,6 +2,7 @@
 using HappyChat.Application.Interfaces;
 using HappyChat.Desktop.Services;
 using HappyChat.Desktop.ViewModels.Auth;
+using HappyChat.Desktop.ViewModels.Chat;
 using HappyChat.Infrastructure.Auth;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -30,6 +31,8 @@ internal static class Program
         services.AddTransient<LoginViewModel>();
 
         services.AddTransient<VerifyOtpViewModel>();
+
+        services.AddTransient<ChatViewModel>();
 
         Services = services.BuildServiceProvider();
 
