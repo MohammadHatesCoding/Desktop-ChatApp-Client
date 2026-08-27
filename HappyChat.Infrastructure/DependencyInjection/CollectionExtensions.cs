@@ -1,5 +1,5 @@
 ﻿using HappyChat.Application.Interfaces;
-using HappyChat.Infrastructure.Services;
+using HappyChat.Infrastructure.Api;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection

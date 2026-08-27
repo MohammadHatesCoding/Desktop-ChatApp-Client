@@ -44,6 +44,8 @@
 
 		<ProjectReference Include="..\HappyChat.Infrastructure\HappyChat.Infrastructure.csproj" />
 
+		<ProjectReference Include="..\HappyChat.Shared\HappyChat.Shared.csproj" />
+
 	</ItemGroup>
 	<ItemGroup>
 	  <Compile Update="Views\Auth\LoginView.axaml.cs">
@@ -52,6 +54,9 @@
 	  <Compile Update="Views\Auth\VerifyOtpView.axaml.cs">
 	    <DependentUpon>VerifyOtpView.axaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Controls\Chat\" />
 	</ItemGroup>
 
 </Project>

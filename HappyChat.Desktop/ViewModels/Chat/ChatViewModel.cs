@@ -1,171 +1,570 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Avalonia.Media;
+﻿using HappyChat.Application.DTOs.Chat;
 using HappyChat.Application.Interfaces;
 using HappyChat.Desktop.Commands;
-using HappyChat.Desktop.Helpers;
-using HappyChat.Desktop.Services;
-using HappyChat.Desktop.ViewModels.Auth;
+using System;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HappyChat.Desktop.ViewModels.Chat;
 
 public sealed class ChatViewModel : ViewModelBase
 {
     private readonly IChatService _chatService;
-    private readonly INavigationService _navigationService;
 
-    private ChatListItemViewModel? _selectedChat;
+    private readonly CancellationTokenSource
+        _cancellationTokenSource = new();
+
+    private string _searchText = string.Empty;
+
     private string _messageText = string.Empty;
-    private bool _isLoadingChats;
+
+    private string _selectedConversationInitials =
+        string.Empty;
+
+    private string _selectedConversationAvatarBrush =
+        "#2563EB";
+
+    private string _selectedConversationStatus =
+        string.Empty;
+
+    private string _errorMessage =
+        string.Empty;
+
+    private ConversationItemViewModel?
+        _selectedConversation;
+
+    private OpenChatResponse?
+        _openChat;
+
+    private bool _isLoadingConversations;
+
+    private bool _isLoadingChat;
+
     private bool _isLoadingMessages;
 
-    public ChatViewModel(IChatService chatService, INavigationService navigationService)
+    private bool _isSendingMessage;
+
+    public ChatViewModel(
+        IChatService chatService)
     {
         _chatService = chatService;
-        _navigationService = navigationService;
 
-        Chats = new ObservableCollection<ChatListItemViewModel>();
-        Messages = new ObservableCollection<MessageViewModel>();
+        Conversations =
+            new ObservableCollection<
+                ConversationItemViewModel>();
 
-        LoadChatsCommand = new AsyncRelayCommand(LoadChatsAsync);
-        SendMessageCommand = new AsyncRelayCommand(SendMessageAsync);
+        Messages =
+            new ObservableCollection<
+                MessageItemViewModel>();
 
-        NavigateToSignUpDevCommand = new RelayCommand(() => _navigationService.NavigateTo<CreateAccountViewModel>());
-        NavigateToLoginDevCommand = new RelayCommand(() => _navigationService.NavigateTo<LoginViewModel>());
-        NavigateToOtpDevCommand = new RelayCommand(() => _navigationService.NavigateTo<VerifyOtpViewModel>());
+        SelectConversationCommand =
+            new AsyncRelayCommand<ConversationItemViewModel?>(
+                SelectConversationAsync);
+
+        NewChatCommand =
+            new RelayCommand(
+                NewChat);
+
+        SendMessageCommand =
+            new RelayCommand(
+                SendMessage,
+                () =>
+                    CanSendMessage);
+
+        SearchCommand =
+            new RelayCommand(
+                ApplySearch);
+
+        _ = LoadAsync();
     }
 
-    public ObservableCollection<ChatListItemViewModel> Chats { get; }
+    // =========================================================
+    // Collections
+    // =========================================================
 
-    public ObservableCollection<MessageViewModel> Messages { get; }
-
-    public ChatListItemViewModel? SelectedChat
+    public ObservableCollection<
+        ConversationItemViewModel>
+        Conversations
     {
-        get => _selectedChat;
-        private set
+        get;
+    }
+
+    public ObservableCollection<
+        MessageItemViewModel>
+        Messages
+    {
+        get;
+    }
+
+    private readonly
+        ObservableCollection<
+            ConversationItemViewModel>
+        _allConversations =
+            new();
+
+    // =========================================================
+    // Search
+    // =========================================================
+
+    public string SearchText
+    {
+        get => _searchText;
+
+        set
         {
-            if (SetProperty(ref _selectedChat, value))
+            if (SetProperty(
+                    ref _searchText,
+                    value))
             {
-                OnPropertyChanged(nameof(HasSelectedChat));
-                OnPropertyChanged(nameof(HasNoSelectedChat));
-                OnPropertyChanged(nameof(SelectedChatName));
-                OnPropertyChanged(nameof(SelectedChatInitials));
-                OnPropertyChanged(nameof(SelectedChatAvatarBrush));
-                OnPropertyChanged(nameof(SelectedChatIsOnline));
-                OnPropertyChanged(nameof(SelectedChatStatusText));
+                ApplySearch();
             }
         }
     }
 
-    public bool HasSelectedChat => SelectedChat is not null;
-
-    public bool HasNoSelectedChat => !HasSelectedChat;
-
-    public string SelectedChatName => SelectedChat?.Name ?? string.Empty;
-
-    public string SelectedChatInitials => SelectedChat?.Initials ?? string.Empty;
-
-    public IBrush SelectedChatAvatarBrush => SelectedChat?.AvatarBrush ?? AvatarColorPalette.GetColor(0);
-
-    public bool SelectedChatIsOnline => SelectedChat?.IsOnline ?? false;
-
-    public string SelectedChatStatusText => SelectedChatIsOnline ? "Active now" : "Offline";
+    // =========================================================
+    // Message
+    // =========================================================
 
     public string MessageText
     {
         get => _messageText;
-        set => SetProperty(ref _messageText, value);
+
+        set
+        {
+            if (SetProperty(
+                    ref _messageText,
+                    value))
+            {
+                OnPropertyChanged(
+                    nameof(CanSendMessage));
+
+                if (SendMessageCommand
+                    is RelayCommand command)
+                {
+                    command.RaiseCanExecuteChanged();
+                }
+            }
+        }
     }
 
-    public bool IsLoadingChats
+    public bool CanSendMessage =>
+        !string.IsNullOrWhiteSpace(
+            MessageText)
+        &&
+        !_isSendingMessage
+        &&
+        SelectedConversation is not null;
+
+    // =========================================================
+    // Selected Conversation
+    // =========================================================
+
+    public ConversationItemViewModel?
+        SelectedConversation
     {
-        get => _isLoadingChats;
-        private set => SetProperty(ref _isLoadingChats, value);
+        get => _selectedConversation;
+
+        private set
+        {
+            if (SetProperty(
+                    ref _selectedConversation,
+                    value))
+            {
+                OnPropertyChanged(
+                    nameof(SelectedConversationName));
+
+                OnPropertyChanged(
+                    nameof(SelectedConversationInitials));
+
+                OnPropertyChanged(
+                    nameof(SelectedConversationAvatarBrush));
+
+                OnPropertyChanged(
+                    nameof(SelectedConversationStatus));
+
+                OnPropertyChanged(
+                    nameof(SelectedConversationIsOnline));
+
+                OnPropertyChanged(
+                    nameof(CanSendMessage));
+
+                if (SendMessageCommand
+                    is RelayCommand command)
+                {
+                    command.RaiseCanExecuteChanged();
+                }
+            }
+        }
+    }
+
+    public string SelectedConversationName =>
+        _openChat?.Title
+        ?? SelectedConversation?.Title
+        ?? string.Empty;
+
+    public string SelectedConversationInitials =>
+        _selectedConversationInitials;
+
+    public string SelectedConversationAvatarBrush =>
+        _selectedConversationAvatarBrush;
+
+    public string SelectedConversationStatus =>
+        _selectedConversationStatus;
+
+    public bool SelectedConversationIsOnline =>
+        _openChat?.IsOnline
+        ?? SelectedConversation?.IsOnline
+        ?? false;
+
+    // =========================================================
+    // Loading
+    // =========================================================
+
+    public bool IsLoadingConversations
+    {
+        get => _isLoadingConversations;
+
+        private set =>
+            SetProperty(
+                ref _isLoadingConversations,
+                value);
+    }
+
+    public bool IsLoadingChat
+    {
+        get => _isLoadingChat;
+
+        private set =>
+            SetProperty(
+                ref _isLoadingChat,
+                value);
     }
 
     public bool IsLoadingMessages
     {
         get => _isLoadingMessages;
-        private set => SetProperty(ref _isLoadingMessages, value);
+
+        private set =>
+            SetProperty(
+                ref _isLoadingMessages,
+                value);
     }
 
-    public ICommand LoadChatsCommand { get; }
+    // =========================================================
+    // Error
+    // =========================================================
 
-    public ICommand SendMessageCommand { get; }
+    public string ErrorMessage
+    {
+        get => _errorMessage;
 
-    public ICommand NavigateToSignUpDevCommand { get; }
+        private set
+        {
+            if (SetProperty(
+                    ref _errorMessage,
+                    value))
+            {
+                OnPropertyChanged(
+                    nameof(HasError));
+            }
+        }
+    }
 
-    public ICommand NavigateToLoginDevCommand { get; }
+    public bool HasError =>
+        !string.IsNullOrWhiteSpace(
+            ErrorMessage);
 
-    public ICommand NavigateToOtpDevCommand { get; }
+    // =========================================================
+    // Commands
+    // =========================================================
 
-    private async Task LoadChatsAsync()
+    public ICommand
+        SelectConversationCommand
+    {
+        get;
+    }
+
+    public ICommand
+        NewChatCommand
+    {
+        get;
+    }
+
+    public ICommand
+        SendMessageCommand
+    {
+        get;
+    }
+
+    public ICommand
+        SearchCommand
+    {
+        get;
+    }
+
+    // =========================================================
+    // Initial Load
+    // =========================================================
+
+    private async Task LoadAsync()
     {
         try
         {
-            IsLoadingChats = true;
+            ErrorMessage = string.Empty;
 
-            var chats = await _chatService.GetChatsAsync();
+            IsLoadingConversations = true;
 
-            Chats.Clear();
+            var chats =
+                await _chatService.GetAllChatsAsync(
+                    _cancellationTokenSource.Token);
 
-            foreach (var dto in chats)
+            _allConversations.Clear();
+            Conversations.Clear();
+
+            for (var index = 0;
+                 index < chats.Count;
+                 index++)
             {
-                var item = new ChatListItemViewModel(
-                    dto,
-                    new RelayCommand(() => _ = SelectChatAsync(dto.Id)));
+                var conversation =
+                    new ConversationItemViewModel(
+                        chats[index],
+                        index);
 
-                Chats.Add(item);
+                _allConversations.Add(
+                    conversation);
+
+                Conversations.Add(
+                    conversation);
             }
+
+            if (Conversations.Count > 0)
+            {
+                await SelectConversationAsync(
+                    Conversations[0]);
+            }
+        }
+        catch (OperationCanceledException)
+        {
         }
         catch (Exception)
         {
-            // TODO: نمایش خطای بارگذاری
+            ErrorMessage =
+                "Unable to load your conversations.";
         }
         finally
         {
-            IsLoadingChats = false;
+            IsLoadingConversations = false;
         }
     }
 
-    private async Task SelectChatAsync(int chatId)
-    {
-        var chat = Chats.FirstOrDefault(x => x.Id == chatId);
+    // =========================================================
+    // Open Chat
+    // =========================================================
 
-        if (chat is null)
+    private async Task SelectConversationAsync(
+        ConversationItemViewModel? conversation)
+    {
+        if (conversation is null)
             return;
 
-        foreach (var item in Chats)
+        if (ReferenceEquals(
+                SelectedConversation,
+                conversation)
+            &&
+            _openChat is not null)
         {
-            item.IsSelected = item.Id == chatId;
+            return;
         }
 
-        SelectedChat = chat;
+        try
+        {
+            ErrorMessage = string.Empty;
 
-        await LoadMessagesAsync(chatId);
+            SetSelectedConversation(
+                conversation);
+
+            foreach (var item in Conversations)
+            {
+                item.IsSelected =
+                    item == conversation;
+            }
+
+            _openChat = null;
+
+            Messages.Clear();
+
+            IsLoadingChat = true;
+
+            var openChat =
+                await _chatService.OpenChatAsync(
+                    conversation.ChatId,
+                    _cancellationTokenSource.Token);
+
+            _openChat =
+                openChat;
+
+            UpdateHeader();
+
+            OnPropertyChanged(
+                nameof(SelectedConversationName));
+
+            OnPropertyChanged(
+                nameof(SelectedConversationIsOnline));
+
+            if (openChat is null)
+            {
+                ErrorMessage =
+                    "Unable to open this chat.";
+
+                return;
+            }
+
+            await LoadMessagesAsync(
+                conversation.ChatId);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            ErrorMessage =
+                "Unable to open this conversation.";
+        }
+        finally
+        {
+            IsLoadingChat = false;
+        }
     }
 
-    private async Task LoadMessagesAsync(int chatId)
+    // =========================================================
+    // Selection
+    // =========================================================
+
+    private void SetSelectedConversation(
+        ConversationItemViewModel conversation)
+    {
+        if (ReferenceEquals(
+                _selectedConversation,
+                conversation))
+        {
+            conversation.IsSelected = true;
+            return;
+        }
+
+        if (_selectedConversation is not null)
+        {
+            _selectedConversation.IsSelected = false;
+        }
+
+        conversation.IsSelected = true;
+
+        SelectedConversation =
+            conversation;
+    }
+
+    // =========================================================
+    // Header
+    // =========================================================
+
+    private void UpdateHeader()
+    {
+        if (SelectedConversation is null)
+            return;
+
+        _selectedConversationInitials =
+            SelectedConversation.Initials;
+
+        _selectedConversationAvatarBrush =
+            SelectedConversation.AvatarBrush;
+
+        if (_openChat is not null)
+        {
+            _selectedConversationStatus =
+                _openChat.IsOnline
+                    ? "Active now"
+                    : FormatLastSeen(
+                        _openChat.LastSeen);
+        }
+        else
+        {
+            _selectedConversationStatus =
+                SelectedConversation.IsOnline
+                    ? "Active now"
+                    : "Offline";
+        }
+
+        OnPropertyChanged(
+            nameof(SelectedConversationInitials));
+
+        OnPropertyChanged(
+            nameof(SelectedConversationAvatarBrush));
+
+        OnPropertyChanged(
+            nameof(SelectedConversationStatus));
+
+        OnPropertyChanged(
+            nameof(SelectedConversationIsOnline));
+    }
+
+    private static string FormatLastSeen(
+        DateTime? lastSeen)
+    {
+        if (lastSeen is null)
+            return "Offline";
+
+        var value =
+            lastSeen.Value;
+
+        if (value.Date == DateTime.Today)
+            return $"Last seen {value:h:mm tt}";
+
+        if (value.Date ==
+            DateTime.Today.AddDays(-1))
+        {
+            return "Last seen yesterday";
+        }
+
+        return
+            $"Last seen {value:MMM d}";
+    }
+
+    // =========================================================
+    // Messages
+    // =========================================================
+
+    private async Task LoadMessagesAsync(
+        int chatId)
     {
         try
         {
             IsLoadingMessages = true;
 
+            var messages =
+                await _chatService.GetMessagesAsync(
+                    chatId,
+                    page: 1,
+                    pageSize: 30,
+                    cancellationToken:
+                        _cancellationTokenSource.Token);
+
             Messages.Clear();
 
-            var messages = await _chatService.GetMessagesAsync(chatId);
-
-            foreach (var dto in messages)
+            foreach (var message in messages)
             {
-                Messages.Add(new MessageViewModel(dto, SelectedChatInitials));
+                Messages.Add(
+                    new MessageItemViewModel(
+                        message));
             }
+        }
+        catch (OperationCanceledException)
+        {
         }
         catch (Exception)
         {
-            // TODO: نمایش خطای بارگذاری
+            ErrorMessage =
+                "Unable to load messages.";
         }
         finally
         {
@@ -173,26 +572,86 @@ public sealed class ChatViewModel : ViewModelBase
         }
     }
 
-    private async Task SendMessageAsync()
+    // =========================================================
+    // Search
+    // =========================================================
+
+    private void ApplySearch()
     {
-        if (SelectedChat is null || string.IsNullOrWhiteSpace(MessageText))
-            return;
+        var query =
+            SearchText.Trim();
 
-        var text = MessageText;
-        MessageText = string.Empty;
+        Conversations.Clear();
 
-        try
+        if (string.IsNullOrWhiteSpace(query))
         {
-            var sent = await _chatService.SendMessageAsync(SelectedChat.Id, text);
-
-            if (sent is not null)
+            foreach (var conversation
+                     in _allConversations)
             {
-                Messages.Add(new MessageViewModel(sent, SelectedChatInitials));
+                Conversations.Add(
+                    conversation);
+            }
+
+            return;
+        }
+
+        foreach (var conversation
+                 in _allConversations)
+        {
+            if (conversation.Title.Contains(
+                    query,
+                    StringComparison.OrdinalIgnoreCase)
+                ||
+                conversation.LastMessage.Contains(
+                    query,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                Conversations.Add(
+                    conversation);
             }
         }
-        catch (Exception)
-        {
-            // TODO: نمایش خطای ارسال
-        }
+    }
+
+    // =========================================================
+    // New Chat
+    // =========================================================
+
+    private void NewChat()
+    {
+        SearchText = string.Empty;
+
+        if (Conversations.Count == 0)
+            return;
+
+        _ = SelectConversationAsync(
+            Conversations[0]);
+    }
+
+    // =========================================================
+    // Send Message
+    // =========================================================
+
+    private void SendMessage()
+    {
+        /*
+         * فعلاً API ارسال پیام در اطلاعات Backend
+         * که دادی وجود ندارد.
+         *
+         * بنابراین اینجا هنوز پیام را به Backend
+         * ارسال نمی‌کنیم.
+         *
+         * بعداً با SendMessage API / SignalR / WebSocket
+         * همین بخش را وصل می‌کنیم.
+         */
+    }
+
+    // =========================================================
+    // Dispose
+    // =========================================================
+
+    public void Dispose()
+    {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
     }
 }

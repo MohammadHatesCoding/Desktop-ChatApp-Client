@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HappyChat.Application\HappyChat.Application.csproj" />
+    <ProjectReference Include="..\HappyChat.Shared\HappyChat.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

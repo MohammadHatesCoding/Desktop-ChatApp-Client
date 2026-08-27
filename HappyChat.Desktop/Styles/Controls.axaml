@@ -30,31 +30,25 @@
 
 	</Style>
 
-
 	<!-- ================================================= -->
 	<!-- TextBox Error State                               -->
 	<!-- ================================================= -->
 
 	<Style Selector="TextBox.NexusInput.error">
 
-		<Setter Property="BorderBrush"
-				Value="{DynamicResource ErrorBrush}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ErrorBrush}" />
 
-		<Setter Property="BorderThickness"
-				Value="1" />
+		<Setter Property="BorderThickness" Value="1" />
 
 	</Style>
-
 
 	<!-- Keep error border red while focused -->
 
 	<Style Selector="TextBox.NexusInput.error:focus">
 
-		<Setter Property="BorderBrush"
-				Value="{DynamicResource ErrorBrush}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ErrorBrush}" />
 
 	</Style>
-
 
 	<!-- ============================= -->
 	<!-- FormField -->
@@ -76,14 +70,11 @@
 
 	<Style Selector="TextBlock.NexusFieldError">
 
-		<Setter Property="FontSize"
-				Value="12" />
+		<Setter Property="FontSize" Value="12" />
 
-		<Setter Property="Foreground"
-				Value="{DynamicResource ErrorBrush}" />
+		<Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
 
 	</Style>
-
 
 	<!-- ============================= -->
 	<!-- OTP Input -->
@@ -91,44 +82,31 @@
 
 	<Style Selector="TextBox.OtpInput">
 
-		<Setter Property="Width"
-				Value="54" />
+		<Setter Property="Width" Value="54" />
 
-		<Setter Property="Height"
-				Value="60" />
+		<Setter Property="Height" Value="60" />
 
-		<Setter Property="Background"
-				Value="#11151C" />
+		<Setter Property="Background" Value="#11151C" />
 
-		<Setter Property="Foreground"
-				Value="{DynamicResource TextBrush}" />
+		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
 
-		<Setter Property="BorderBrush"
-				Value="#2A3445" />
+		<Setter Property="BorderBrush" Value="#2A3445" />
 
-		<Setter Property="BorderThickness"
-				Value="1" />
+		<Setter Property="BorderThickness" Value="1" />
 
-		<Setter Property="CornerRadius"
-				Value="16" />
+		<Setter Property="CornerRadius" Value="16" />
 
-		<Setter Property="FontSize"
-				Value="22" />
+		<Setter Property="FontSize" Value="22" />
 
-		<Setter Property="FontWeight"
-				Value="SemiBold" />
+		<Setter Property="FontWeight" Value="SemiBold" />
 
-		<Setter Property="HorizontalContentAlignment"
-				Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
 
-		<Setter Property="VerticalContentAlignment"
-				Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
 
-		<Setter Property="Padding"
-				Value="0" />
+		<Setter Property="Padding" Value="0" />
 
 	</Style>
-
 
 	<!-- ============================= -->
 	<!-- OTP Focus -->
@@ -136,11 +114,9 @@
 
 	<Style Selector="TextBox.OtpInput:focus">
 
-		<Setter Property="BorderBrush"
-				Value="{DynamicResource PrimaryBrush}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
 
-		<Setter Property="BorderThickness"
-				Value="1" />
+		<Setter Property="BorderThickness" Value="1" />
 
 	</Style>
 	
@@ -178,8 +154,17 @@
 
 	<Style Selector="Button.NexusPrimaryButton:pointerover">
 
-		<Setter Property="Background"
-                Value="{DynamicResource PrimaryHoverBrush}" />
+		<Setter Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+
+	</Style>
+
+	<!-- ============================= -->
+	<!-- Button Pressed -->
+	<!-- ============================= -->
+
+	<Style Selector="Button.NexusPrimaryButton:pressed">
+
+		<Setter Property="Background" Value="{DynamicResource PrimaryPressedBrush}" />
 
 	</Style>
 
@@ -215,29 +200,13 @@
 
 	</Style>
 
-
 	<Style Selector="Button.SocialLoginButton:pointerover">
 
-		<Setter Property="Background"
-				Value="{DynamicResource CardBrush}" />
+		<Setter Property="Background" Value="{DynamicResource CardBrush}" />
 
-		<Setter Property="BorderBrush"
-				Value="{DynamicResource PrimaryBrush}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
 
 	</Style>	
-
-
-	<!-- ============================= -->
-	<!-- Button Pressed -->
-	<!-- ============================= -->
-
-	<Style Selector="Button.NexusPrimaryButton:pressed">
-
-		<Setter Property="Background"
-                Value="{DynamicResource PrimaryPressedBrush}" />
-
-	</Style>
-
 
 	<!-- ============================= -->
 	<!-- Auth Link -->
@@ -295,130 +264,345 @@
 	
 	</Style>
 
-
 	<!-- ============================= -->
-	<!-- Auth Devider Style -->
+	<!-- Auth Divider Style -->
 	<!-- ============================= -->
 
 	<Style Selector="TextBlock.AuthDividerTextStyle">
 
-		<Setter Property="FontSize"
-				Value="12" />
+		<Setter Property="FontSize" Value="12" />
 
-		<Setter Property="Foreground"
-				Value="{DynamicResource SecondaryTextBrush}" />
+		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
 
-		<Setter Property="FontWeight"
-				Value="Normal" />
+		<Setter Property="FontWeight" Value="Normal" />
 
-		<Setter Property="HorizontalAlignment"
-				Value="Center" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
 
-		<Setter Property="VerticalAlignment"
-				Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Center" />
 
 	</Style>
-
 
 	<!-- ============================= -->
 	<!-- Chat List Item -->
 	<!-- ============================= -->
+
 	<Style Selector="Button.ChatListItemButton">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="BorderBrush" Value="Transparent" />
-		<Setter Property="CornerRadius" Value="16" />
-		<Setter Property="Padding" Value="10" />
-		<Setter Property="Margin" Value="0,2" />
-	</Style>
+
+		<Setter Property="Background"
+				Value="Transparent" />
+
+		<Setter Property="BorderThickness"
+				Value="1" />
+
+		<Setter Property="BorderBrush"
+				Value="Transparent" />
+
+		<Setter Property="CornerRadius"
+				Value="14" />
+
+		<Setter Property="Padding"
+				Value="0" />
+
+		<Setter Property="Margin"
+				Value="14,2" />
+
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+
+		<Setter Property="VerticalContentAlignment"
+				Value="Center" />
+
+	</Style>	
+	
+	<!-- ============================= -->
+	<!-- Chat List Item Hover -->
+	<!-- ============================= -->
 
 	<Style Selector="Button.ChatListItemButton:pointerover">
-		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+
+		<Setter Property="Background"
+				Value="#0D111A" />
+
+		<Setter Property="BorderBrush"
+				Value="#182131" />
+
 	</Style>
+	
+	<!-- ============================= -->
+	<!-- Chat List Item Selected -->
+	<!-- ============================= -->
+
 	<Style Selector="Button.ChatListItemButton.selected">
-		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
-		<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+
+		<Setter Property="Background"
+				Value="#14213A" />
+
+		<Setter Property="BorderBrush"
+				Value="#2858A8" />
+
+	</Style>	
+
+	<!-- ============================= -->
+	<!-- Chat List Item Selected Hover -->
+	<!-- ============================= -->
+
+	<Style Selector="Button.ChatListItemButton.selected:pointerover">
+
+		<Setter Property="Background"
+				Value="#172746" />
+
+		<Setter Property="BorderBrush"
+				Value="#2E65BE" />
+
 	</Style>
+
 	<!-- ============================= -->
 	<!-- Chat Icon Buttons -->
 	<!-- ============================= -->
+	
 	<Style Selector="Button.NexusIconButton">
+	
 		<Setter Property="Background" Value="Transparent" />
+		
 		<Setter Property="BorderThickness" Value="0" />
+		
 		<Setter Property="Width" Value="40" />
+		
 		<Setter Property="Height" Value="40" />
+		
 		<Setter Property="FontSize" Value="18" />
+		
 		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+		
 		<Setter Property="CornerRadius" Value="12" />
+		
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		
 		<Setter Property="VerticalContentAlignment" Value="Center" />
+	
 	</Style>
+	
 	<Style Selector="Button.NexusIconButton:pointerover">
+	
 		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+
+		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+	
 	</Style>
+	
 	<!-- ============================= -->
 	<!-- Send Button -->
 	<!-- ============================= -->
+	
 	<Style Selector="Button.NexusSendButton">
+	
 		<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+		
 		<Setter Property="BorderThickness" Value="0" />
+		
 		<Setter Property="Width" Value="44" />
+		
 		<Setter Property="Height" Value="44" />
+		
 		<Setter Property="FontSize" Value="16" />
+		
 		<Setter Property="Foreground" Value="White" />
+		
 		<Setter Property="CornerRadius" Value="100" />
+		
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		
 		<Setter Property="VerticalContentAlignment" Value="Center" />
+	
 	</Style>
+	
 	<Style Selector="Button.NexusSendButton:pointerover">
+	
 		<Setter Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+	
 	</Style>
+	
 	<!-- ============================= -->
 	<!-- Chat Input -->
 	<!-- ============================= -->
+	
 	<Style Selector="TextBox.NexusChatInput">
+	
 		<Setter Property="Height" Value="50" />
+		
 		<Setter Property="Padding" Value="18,0" />
+		
 		<Setter Property="VerticalContentAlignment" Value="Center" />
+		
 		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+		
 		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+		
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+		
 		<Setter Property="BorderThickness" Value="1" />
+		
 		<Setter Property="FontSize" Value="14" />
+		
 		<Setter Property="WatermarkForeground" Value="{DynamicResource SecondaryTextBrush}" />
+		
 		<Setter Property="CornerRadius" Value="100" />
+	
 	</Style>
+	
 	<!-- ============================= -->
 	<!-- Sidebar Search Input -->
 	<!-- ============================= -->
+	
 	<Style Selector="TextBox.NexusSearchInput">
+	
 		<Setter Property="Height" Value="44" />
+		
 		<Setter Property="Padding" Value="16,0" />
+		
 		<Setter Property="VerticalContentAlignment" Value="Center" />
+		
 		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+		
 		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+				
 		<Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+				
 		<Setter Property="BorderThickness" Value="1" />
+				
 		<Setter Property="FontSize" Value="14" />
+				
 		<Setter Property="WatermarkForeground" Value="{DynamicResource SecondaryTextBrush}" />
+				
 		<Setter Property="CornerRadius" Value="14" />
+	
 	</Style>
-	<!-- ============================= -->
-	<!-- Dev Nav Bar -->
-	<!-- ============================= -->
+
+	<!-- ========================================================= -->
+	<!-- Dev Nav Bar                                               -->
+	<!-- ========================================================= -->
+
 	<Style Selector="Button.DevNavButton">
+
 		<Setter Property="Background" Value="Transparent" />
+
 		<Setter Property="BorderThickness" Value="1" />
+
 		<Setter Property="BorderBrush" Value="Transparent" />
+
 		<Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+
 		<Setter Property="FontSize" Value="13" />
+
 		<Setter Property="Padding" Value="16,8" />
+
 		<Setter Property="CornerRadius" Value="100" />
+
 	</Style>
+
 	<Style Selector="Button.DevNavButton.active">
+
 		<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+
 		<Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+
 		<Setter Property="Foreground" Value="White" />
+
 	</Style>	
+
+	
+	<!-- ============================= --><!--
+	--><!-- Chat Primary Glow --><!--
+	--><!-- ============================= --><!--
+
+	<Style Selector="Button.NexusChatPrimaryButton">
+
+		<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+
+		<Setter Property="Foreground"  Value="White" />
+
+		<Setter Property="BorderThickness" Value="0" />
+
+		<Setter Property="CornerRadius" Value="10" />
+
+		<Setter Property="FontWeight" Value="SemiBold" />
+
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+
+	</Style>
+
+	<Style Selector="Button.NexusChatPrimaryButton:pointerover">
+
+		<Setter Property="Background" Value="{DynamicResource PrimaryHoverBrush}" />
+
+	</Style>
+
+	<Style Selector="Button.NexusChatPrimaryButton:pressed">
+
+		<Setter Property="Background" Value="{DynamicResource PrimaryPressedBrush}" />
+
+	</Style>
+
+	--><!-- ============================= --><!--
+	--><!-- Chat Selected Conversation --><!--
+	--><!-- ============================= --><!--
+
+	<Style Selector="Button.ChatConversationButton">
+
+		<Setter Property="Background" Value="Transparent" />
+
+		<Setter Property="BorderThickness" Value="0" />
+
+		<Setter Property="CornerRadius" Value="12" />
+
+		<Setter Property="Padding" Value="0" />
+
+	</Style>
+
+	<Style Selector="Button.ChatConversationButton:pointerover">
+
+		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+
+	</Style>
+
+	<Style Selector="Button.ChatConversationButton.selected">
+
+		<Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+
+	</Style>
+
+	--><!-- ============================= --><!--
+	--><!-- Chat Icon --><!--
+	--><!-- ============================= --><!--
+
+	<Style Selector="Button.ChatHeaderIcon">
+
+		<Setter Property="Width" Value="34" />
+
+		<Setter Property="Height" Value="34" />
+
+		<Setter Property="Background" Value="Transparent" />
+
+		<Setter Property="BorderThickness" Value="0" />
+
+		<Setter Property="Foreground" Value="{DynamicResource MutedTextBrush}" />
+
+		<Setter Property="CornerRadius" Value="10" />
+
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+
+	</Style>
+
+	<Style Selector="Button.ChatHeaderIcon:pointerover">
+
+		<Setter Property="Background" Value="{DynamicResource InputBrush}" />
+
+		<Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+
+	</Style>-->	
 	
 </Styles>

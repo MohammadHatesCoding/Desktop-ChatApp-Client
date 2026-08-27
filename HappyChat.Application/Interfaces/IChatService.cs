@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using HappyChat.Application.DTOs;
+﻿using HappyChat.Application.DTOs.Chat;
 
 namespace HappyChat.Application.Interfaces;
 
 public interface IChatService
 {
-    Task<List<ChatSummaryDto>> GetChatsAsync();
+    Task<IReadOnlyList<GetAllChatsResponse>> GetAllChatsAsync(CancellationToken cancellationToken = default);
 
-    Task<List<ChatMessageDto>> GetMessagesAsync(int chatId);
+    Task<OpenChatResponse?> OpenChatAsync(int chatId, CancellationToken cancellationToken = default);
 
-    Task<ChatMessageDto?> SendMessageAsync(int chatId, string content);
+    Task<IReadOnlyList<GetMessagesResponse>> GetMessagesAsync(int chatId, int page = 1, 
+        int pageSize = 30, CancellationToken cancellationToken = default);
 }

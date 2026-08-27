@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HappyChat.Shared\HappyChat.Shared.csproj" />
-  </ItemGroup>
-
 </Project>

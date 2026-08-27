@@ -1,9 +1,8 @@
 ﻿using HappyChat.Application.DTOs;
 using HappyChat.Application.Interfaces;
-using System.Diagnostics;
 using System.Net.Http.Json;
-using System.Reflection.Metadata;
-using System.Xml.Linq;
+
+namespace HappyChat.Infrastructure.Api;
 
 public class AuthApiClient : IAuthService
 {
