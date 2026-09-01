@@ -31,27 +31,22 @@ public sealed class ChatApiClient : IChatService
 
     public async Task<OpenChatResponse?> OpenChatAsync(int chatId, CancellationToken cancellationToken = default)
     {
-        var url = $"Chat/OpenChat?ChatId={chatId}";
-
-        using var request = CreateAuthenticatedRequest(HttpMethod.Get, url);
+        using var request = CreateAuthenticatedRequest(HttpMethod.Get, $"Chat/OpenChat?query.ChatId={chatId}");
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
 
         response.EnsureSuccessStatusCode();
 
-        return await response.Content.ReadFromJsonAsync<OpenChatResponse>(cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<OpenChatResponse>(cancellationToken);
+
+        return result;
     }
 
-    public async Task<IReadOnlyList<GetMessagesResponse>> GetMessagesAsync(int chatId, int page = 1, int pageSize = 30, 
-        CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<GetMessagesResponse>> GetMessagesAsync(int chatId, int page = 1, int pageSize = 30, CancellationToken cancellationToken = default)
     {
-        var url = $"Message/GetMessages" + $"?ChatId={chatId}" + $"&Page={page}" + $"&PageSize={pageSize}";
-
-        using var request = CreateAuthenticatedRequest(HttpMethod.Get, url);
+        using var request = CreateAuthenticatedRequest(HttpMethod.Get, $"Message/GetMessages?Query.ChatId={chatId}&Query.Page={page}&Query.PageSize={pageSize}");
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
-
-        response.EnsureSuccessStatusCode();
 
         var result = await response.Content.ReadFromJsonAsync<List<GetMessagesResponse>>(cancellationToken);
 
