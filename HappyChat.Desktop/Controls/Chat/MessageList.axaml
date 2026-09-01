@@ -1,0 +1,38 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chat="using:HappyChat.Desktop.Controls.Chat"
+    x:Class="HappyChat.Desktop.Controls.Chat.MessageList">
+
+
+<ScrollViewer
+    VerticalScrollBarVisibility="Auto">
+
+
+	<ItemsControl
+		ItemsSource="{Binding Messages}"
+		IsVisible="{Binding SelectedConversation}">
+
+
+<ItemsControl.ItemTemplate>
+
+
+<DataTemplate>
+
+
+<chat:MessageBubble/>
+
+
+</DataTemplate>
+
+
+</ItemsControl.ItemTemplate>
+
+
+</ItemsControl>
+
+
+</ScrollViewer>
+
+
+</UserControl>

@@ -1,0 +1,43 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:HappyChat.Desktop.Controls.Common"
+    x:Class="HappyChat.Desktop.Controls.Common.AvatarControl"
+    x:Name="Root">
+
+
+	<Grid
+        Width="{Binding Size, ElementName=Root}"
+        Height="{Binding Size, ElementName=Root}">
+
+
+		<Border
+            Background="{Binding AvatarBrush, ElementName=Root}"
+            CornerRadius="{Binding CornerRadius, ElementName=Root}">
+
+
+			<TextBlock
+                Text="{Binding Initials, ElementName=Root}"
+                Foreground="White"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                FontSize="{Binding FontSize, ElementName=Root}"/>
+
+
+		</Border>
+
+
+
+		<common:OnlineIndicator
+            Width="{Binding OnlineSize, ElementName=Root}"
+            Height="{Binding OnlineSize, ElementName=Root}"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            IsVisible="{Binding IsOnline, ElementName=Root}"/>
+
+
+	</Grid>
+
+
+</UserControl>

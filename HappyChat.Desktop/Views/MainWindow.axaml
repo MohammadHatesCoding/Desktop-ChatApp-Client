@@ -9,7 +9,10 @@
     Title="HappyChat"
     Background="#05070B"	
     WindowStartupLocation="CenterScreen">
-	
-	<ContentControl Content="{Binding CurrentViewModel}" />
+
+	<ContentControl
+    Content="{Binding CurrentViewModel}"
+    HorizontalContentAlignment="Stretch"
+    VerticalContentAlignment="Stretch" />
 
 </Window>

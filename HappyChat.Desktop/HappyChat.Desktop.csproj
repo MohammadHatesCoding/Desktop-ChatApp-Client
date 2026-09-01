@@ -55,8 +55,5 @@
 	    <DependentUpon>VerifyOtpView.axaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Controls\Chat\" />
-	</ItemGroup>
 
 </Project>

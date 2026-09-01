@@ -229,7 +229,7 @@ public sealed class VerifyOtpViewModel : ViewModelBase
 
             StopCountdown();
 
-            _navigationService.NavigateTo<ChatViewModel>();
+            await _navigationService.NavigateTo<ChatViewModel>();
         }
         catch (Exception)
         {
@@ -247,9 +247,9 @@ public sealed class VerifyOtpViewModel : ViewModelBase
     // Back
     // =========================================================
 
-    private void BackToLogin()
+    private async void BackToLogin()
     {
         StopCountdown();
-        _navigationService.NavigateTo<LoginViewModel>();
+        await _navigationService.NavigateTo<LoginViewModel>();
     }
 }

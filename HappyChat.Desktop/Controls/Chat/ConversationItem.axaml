@@ -1,0 +1,98 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:HappyChat.Desktop.Controls.Common"
+    x:Class="HappyChat.Desktop.Controls.Chat.ConversationItem">
+
+
+	<Button
+        Classes="ChatListItemButton"
+        Classes.selected="{Binding IsSelected}"
+        HorizontalAlignment="Stretch"
+        HorizontalContentAlignment="Stretch"
+        Padding="0"
+        Command="{Binding $parent[ItemsControl].DataContext.SelectConversationCommand}"
+        CommandParameter="{Binding}">
+
+
+		<Grid
+            ColumnDefinitions="Auto,*,Auto"
+            Margin="10,8">
+
+
+			<common:AvatarControl
+				Grid.Column="0"
+				Size="40"
+				Initials="{Binding Initials, RelativeSource={RelativeSource AncestorType=UserControl}}"
+				AvatarBrush="{Binding AvatarBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
+				IsOnline="{Binding IsOnline, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+
+
+			<Grid
+                Grid.Column="1"
+                RowDefinitions="Auto,Auto"
+                Margin="12,0,8,0"
+                VerticalAlignment="Center">
+
+
+				<TextBlock
+                    Grid.Row="0"
+                    Text="{Binding Title}"
+                    Classes="ChatTitleText"
+                    TextTrimming="CharacterEllipsis"/>
+
+
+				<TextBlock
+                    Grid.Row="1"
+                    Text="{Binding LastMessage}"
+                    Classes="ChatSubtitleText"
+                    Margin="0,4,0,0"
+                    TextTrimming="CharacterEllipsis"/>
+
+
+			</Grid>
+
+
+
+			<StackPanel
+                Grid.Column="2"
+                Spacing="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
+
+
+				<TextBlock
+                    Text="{Binding TimeText}"
+                    Classes="ChatMetaText"/>
+
+
+				<Border
+                    Width="18"
+                    Height="18"
+                    CornerRadius="9"
+                    Background="{DynamicResource PrimaryBrush}"
+                    IsVisible="{Binding HasUnread}">
+
+
+					<TextBlock
+                        Text="{Binding UnreadCount}"
+                        Foreground="White"
+                        FontSize="9"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+
+
+				</Border>
+
+
+			</StackPanel>
+
+
+		</Grid>
+
+
+	</Button>
+
+
+</UserControl>

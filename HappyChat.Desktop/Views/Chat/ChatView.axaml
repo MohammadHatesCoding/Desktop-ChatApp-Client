@@ -1,577 +1,72 @@
 ﻿<UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:chat="using:HappyChat.Desktop.Controls.Chat"
+
     x:Class="HappyChat.Desktop.Views.Chat.ChatView">
+
 
 	<Grid
         Background="{DynamicResource BackgroundBrush}">
 
+
 		<Grid
             ColumnDefinitions="300,*">
 
+
 			<!-- ================================================= -->
-			<!-- Sidebar                                           -->
+			<!-- Sidebar                                            -->
 			<!-- ================================================= -->
 
-			<Border
-                Grid.Column="0"
-                Background="{DynamicResource BackgroundSecondaryColor}"
-                BorderBrush="{DynamicResource BorderBrush}"
-                BorderThickness="0,0,1,0">
+			<chat:ChatSidebar
+                Grid.Column="0" />
 
-				<Grid
-                    RowDefinitions="Auto,Auto,Auto,Auto,*">
-
-					<!-- ================================================= -->
-					<!-- Brand                                             -->
-					<!-- ================================================= -->
-
-					<Grid
-                        Grid.Row="0"
-                        Height="64"
-                        Margin="20,0">
-
-						<StackPanel
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center"
-                            Spacing="10">
-
-							<Border
-                                Width="30"
-                                Height="30"
-                                CornerRadius="15"
-                                Background="{DynamicResource PrimaryBrush}">
-
-								<TextBlock
-                                    Text="✦"
-                                    FontSize="15"
-                                    FontWeight="Bold"
-                                    Foreground="White"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-
-							</Border>
-
-							<TextBlock
-                                Text="Nexus"
-                                FontSize="15"
-                                FontWeight="SemiBold"
-                                Foreground="{DynamicResource TextBrush}"
-                                VerticalAlignment="Center" />
-
-						</StackPanel>
-
-					</Grid>
-
-
-					<!-- ================================================= -->
-					<!-- New Chat                                           -->
-					<!-- ================================================= -->
-
-					<Button
-                        Grid.Row="1"
-                        Classes="NexusPrimaryButton"
-                        Margin="18,8,18,14"
-                        Height="42"
-                        CornerRadius="12"
-                        Command="{Binding NewChatCommand}">
-
-						<StackPanel
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center"
-                            Spacing="8">
-
-							<TextBlock
-                                Text="+"
-                                FontSize="19"
-                                FontWeight="SemiBold"
-                                Foreground="White"
-                                VerticalAlignment="Center" />
-
-							<TextBlock
-                                Text="New Chat"
-                                FontSize="13"
-                                FontWeight="SemiBold"
-                                Foreground="White"
-                                VerticalAlignment="Center" />
-
-						</StackPanel>
-
-					</Button>
-
-
-					<!-- ================================================= -->
-					<!-- Search                                             -->
-					<!-- ================================================= -->
-
-					<Border
-                        Grid.Row="2"
-                        Margin="18,0,18,16"
-                        Height="40"
-                        Background="{DynamicResource InputBrush}"
-                        BorderBrush="{DynamicResource BorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="12">
-
-						<Grid
-                            ColumnDefinitions="Auto,*">
-
-							<TextBlock
-                                Grid.Column="0"
-                                Text="⌕"
-                                FontSize="18"
-                                Foreground="{DynamicResource MutedTextBrush}"
-                                Margin="11,0,5,0"
-                                VerticalAlignment="Center" />
-
-							<TextBox
-                                Grid.Column="1"
-                                Classes="NexusSearchInput"
-                                Height="38"
-                                Text="{Binding SearchText, Mode=TwoWay}"
-                                Watermark="Search..."
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Foreground="{DynamicResource TextBrush}"
-                                FontSize="12"
-                                VerticalContentAlignment="Center"
-                                Padding="0" />
-
-						</Grid>
-
-					</Border>
-
-
-					<!-- ================================================= -->
-					<!-- Messages Label                                     -->
-					<!-- ================================================= -->
-
-					<TextBlock
-                        Grid.Row="3"
-                        Text="MESSAGES"
-                        Margin="20,0,20,10"
-                        FontSize="10"
-                        FontWeight="SemiBold"
-                        Foreground="{DynamicResource MutedTextBrush}"
-                        LetterSpacing="1" />
-
-
-					<!-- ================================================= -->
-					<!-- Conversation List                                  -->
-					<!-- ================================================= -->
-
-					<ScrollViewer
-                        Grid.Row="4"
-                        Margin="0"
-                        Padding="0,0,0,12"
-                        VerticalScrollBarVisibility="Auto"
-                        HorizontalScrollBarVisibility="Disabled">
-
-						<ItemsControl
-                            ItemsSource="{Binding Conversations}">
-
-							<ItemsControl.ItemTemplate>
-
-								<DataTemplate>
-
-									<!--
-                                        مهم:
-                                        Margin افقی اینجا باعث می‌شود
-                                        کارت چت به لبه Sidebar نچسبد.
-                                        تمام آیتم‌ها هم عرض یکسان خواهند داشت.
-                                    -->
-
-									<Button
-                                        Classes="ChatListItemButton"
-										Classes.selected="{Binding IsSelected}"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
-                                        Margin="14,2,14,2"
-                                        Padding="0"
-                                        Command="{Binding $parent[ItemsControl].DataContext.SelectConversationCommand}"
-                                        CommandParameter="{Binding}">
-
-										<Grid
-                                            ColumnDefinitions="Auto,*,Auto"
-                                            Margin="10,8,10,8">
-
-											<!-- ================================= -->
-											<!-- Avatar                            -->
-											<!-- ================================= -->
-
-											<Grid
-                                                Grid.Column="0"
-                                                Width="40"
-                                                Height="40">
-
-												<Border
-                                                    Width="38"
-                                                    Height="38"
-                                                    CornerRadius="19"
-                                                    Background="{Binding AvatarBrush}">
-
-													<TextBlock
-                                                        Text="{Binding Initials}"
-                                                        FontSize="11"
-                                                        FontWeight="SemiBold"
-                                                        Foreground="White"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center" />
-
-												</Border>
-
-												<Border
-                                                    Width="11"
-                                                    Height="11"
-                                                    CornerRadius="6"
-                                                    Background="#10B981"
-                                                    BorderBrush="{DynamicResource BackgroundSecondaryColor}"
-                                                    BorderThickness="2"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Bottom"
-                                                    IsVisible="{Binding IsOnline}" />
-
-											</Grid>
-
-
-											<!-- ================================= -->
-											<!-- Conversation Info                -->
-											<!-- ================================= -->
-
-											<Grid
-                                                Grid.Column="1"
-                                                RowDefinitions="Auto,Auto"
-                                                Margin="11,0,7,0"
-                                                VerticalAlignment="Center">
-
-												<TextBlock
-                                                    Grid.Row="0"
-                                                    Text="{Binding Title}"
-                                                    FontSize="12"
-                                                    FontWeight="SemiBold"
-                                                    Foreground="{DynamicResource TextBrush}"
-                                                    TextTrimming="CharacterEllipsis" />
-
-												<TextBlock
-                                                    Grid.Row="1"
-                                                    Text="{Binding LastMessage}"
-                                                    FontSize="10"
-                                                    Foreground="{DynamicResource MutedTextBrush}"
-                                                    Margin="0,3,0,0"
-                                                    TextTrimming="CharacterEllipsis" />
-
-											</Grid>
-
-
-											<!-- ================================= -->
-											<!-- Time + Unread                    -->
-											<!-- ================================= -->
-
-											<StackPanel
-                                                Grid.Column="2"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                Spacing="5">
-
-												<TextBlock
-                                                    Text="{Binding TimeText}"
-                                                    FontSize="9"
-                                                    Foreground="{DynamicResource MutedTextBrush}"
-                                                    HorizontalAlignment="Right" />
-
-												<Border
-                                                    Width="18"
-                                                    Height="18"
-                                                    CornerRadius="9"
-                                                    Background="{DynamicResource PrimaryBrush}"
-                                                    HorizontalAlignment="Right"
-                                                    IsVisible="{Binding HasUnread}">
-
-													<TextBlock
-                                                        Text="{Binding UnreadCount}"
-                                                        FontSize="9"
-                                                        FontWeight="SemiBold"
-                                                        Foreground="White"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center" />
-
-												</Border>
-
-											</StackPanel>
-
-										</Grid>
-
-									</Button>
-
-								</DataTemplate>
-
-							</ItemsControl.ItemTemplate>
-
-						</ItemsControl>
-
-					</ScrollViewer>
-
-				</Grid>
-
-			</Border>
 
 
 			<!-- ================================================= -->
-			<!-- Main Chat Area                                    -->
+			<!-- Main Chat Area                                     -->
 			<!-- ================================================= -->
 
 			<Grid
                 Grid.Column="1"
-                RowDefinitions="64,*,70"
-                Background="{DynamicResource BackgroundBrush}">
-
-				<!--
-                    فعلاً این قسمت دست نمی‌خورد.
-                    در مرحله بعد Header را جداگانه اصلاح می‌کنیم.
-                -->
-
-				<Border
-                    Grid.Row="0"
-                    Background="{DynamicResource BackgroundSecondaryColor}"
-                    BorderBrush="{DynamicResource BorderBrush}"
-                    BorderThickness="0,0,0,1">
-
-					<Grid
-                        ColumnDefinitions="Auto,*,Auto"
-                        Margin="18,0">
-
-						<Grid
-                            Grid.Column="0"
-                            Width="40"
-                            Height="40">
-
-							<Border
-                                Width="38"
-                                Height="38"
-                                CornerRadius="19"
-                                Background="{Binding SelectedConversationAvatarBrush}">
-
-								<TextBlock
-                                    Text="{Binding SelectedConversationInitials}"
-                                    FontSize="11"
-                                    FontWeight="SemiBold"
-                                    Foreground="White"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-
-							</Border>
-
-							<Border
-                                Width="10"
-                                Height="10"
-                                CornerRadius="5"
-                                Background="#10B981"
-                                BorderBrush="{DynamicResource BackgroundSecondaryColor}"
-                                BorderThickness="2"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                IsVisible="{Binding SelectedConversationIsOnline}" />
-
-						</Grid>
-
-						<StackPanel
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Margin="10,0,0,0">
-
-							<TextBlock
-                                Text="{Binding SelectedConversationName}"
-                                FontSize="13"
-                                FontWeight="SemiBold"
-                                Foreground="{DynamicResource TextBrush}" />
-
-							<TextBlock
-                                Text="{Binding SelectedConversationStatus}"
-                                FontSize="10"
-                                Foreground="{DynamicResource MutedTextBrush}"
-                                Margin="0,3,0,0" />
-
-						</StackPanel>
-
-						<StackPanel
-                            Grid.Column="2"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center"
-                            Spacing="4">
-
-							<Button
-                                Classes="NexusIconButton"
-                                Content="⌕" />
-
-							<Button
-                                Classes="NexusIconButton"
-                                Content="◉" />
-
-							<Button
-                                Classes="NexusIconButton"
-                                Content="⋯" />
-
-						</StackPanel>
-
-					</Grid>
-
-				</Border>
+                RowDefinitions="64,*,70">
 
 
-				<!-- ================================================= -->
-				<!-- Messages                                         -->
-				<!-- ================================================= -->
+				<!-- ============================= -->
+				<!-- Header                        -->
+				<!-- ============================= -->
 
-				<ScrollViewer
-                    Grid.Row="1"
-                    VerticalScrollBarVisibility="Auto"
-                    HorizontalScrollBarVisibility="Disabled">
+				<chat:ChatHeader
+					Grid.Row="0"
+					DataContext="{Binding}" />
+				
 
-					<ItemsControl
-                        ItemsSource="{Binding Messages}"
-                        Margin="16,20,16,20">
+				<!-- ============================= -->
+				<!-- Messages                      -->
+				<!-- ============================= -->
 
-						<ItemsControl.ItemTemplate>
-
-							<DataTemplate>
-
-								<Grid
-                                    Margin="0,0,0,16">
-
-									<StackPanel
-                                        HorizontalAlignment="{Binding BubbleAlignment}"
-                                        MaxWidth="620">
-
-										<Border
-                                            Background="{Binding BubbleBackground}"
-                                            CornerRadius="12"
-                                            Padding="13,9">
-
-											<TextBlock
-                                                Text="{Binding Text}"
-                                                Foreground="{Binding BubbleForeground}"
-                                                FontSize="12"
-                                                LineHeight="18"
-                                                TextWrapping="Wrap" />
-
-										</Border>
-
-										<Border
-                                            Width="30"
-                                            Height="22"
-                                            Background="#17191D"
-                                            BorderBrush="#2A2D33"
-                                            BorderThickness="1"
-                                            CornerRadius="11"
-                                            HorizontalAlignment="{Binding BubbleAlignment}"
-                                            Margin="0,-5,0,0"
-                                            IsVisible="{Binding HasReaction}">
-
-											<TextBlock
-                                                Text="{Binding Reaction}"
-                                                FontSize="11"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
-
-										</Border>
-
-										<StackPanel
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="{Binding BubbleAlignment}"
-                                            Spacing="5"
-                                            Margin="4,5,4,0">
-
-											<TextBlock
-                                                Text="{Binding TimeText}"
-                                                FontSize="9"
-                                                Foreground="{Binding MetaForeground}" />
-
-											<TextBlock
-                                                Text="✓✓"
-                                                FontSize="9"
-                                                Foreground="{DynamicResource MutedTextBrush}"
-                                                IsVisible="{Binding ShowReadReceipt}" />
-
-										</StackPanel>
-
-									</StackPanel>
-
-								</Grid>
-
-							</DataTemplate>
-
-						</ItemsControl.ItemTemplate>
-
-					</ItemsControl>
-
-				</ScrollViewer>
+				<chat:MessageList
+					Grid.Row="1"
+					DataContext="{Binding}" />
 
 
-				<!-- ================================================= -->
-				<!-- Composer                                         -->
-				<!-- ================================================= -->
 
-				<Border
-                    Grid.Row="2"
-                    Background="{DynamicResource BackgroundSecondaryColor}"
-                    BorderBrush="{DynamicResource BorderBrush}"
-                    BorderThickness="0,1,0,0"
-                    Padding="16,10">
+				<!-- ============================= -->
+				<!-- Composer                      -->
+				<!-- ============================= -->
 
-					<Grid
-                        ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+				<chat:MessageComposer
+                    Grid.Row="2" />
 
-						<Button
-                            Grid.Column="0"
-                            Classes="NexusIconButton"
-                            Content="⌕" />
-
-						<Border
-                            Grid.Column="1"
-                            Background="{DynamicResource InputBrush}"
-                            BorderBrush="{DynamicResource BorderBrush}"
-                            BorderThickness="1"
-                            CornerRadius="12"
-                            Margin="2,0,8,0">
-
-							<TextBox
-                                Classes="NexusChatInput"
-                                Text="{Binding MessageText, Mode=TwoWay}"
-                                Watermark="Type a message..."
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Foreground="{DynamicResource TextBrush}"
-                                FontSize="12"
-                                VerticalContentAlignment="Center"
-                                Padding="10,0" />
-
-						</Border>
-
-						<Button
-                            Grid.Column="2"
-                            Classes="NexusIconButton"
-                            Content="☺" />
-
-						<Button
-                            Grid.Column="3"
-                            Classes="NexusIconButton"
-                            Content="♩" />
-
-						<Button
-                            Grid.Column="4"
-                            Classes="NexusSendButton"
-                            Command="{Binding SendMessageCommand}"
-                            IsEnabled="{Binding CanSendMessage}"
-                            Content="➤" />
-
-					</Grid>
-
-				</Border>
 
 			</Grid>
 
+
 		</Grid>
 
+
 	</Grid>
+
 
 </UserControl>

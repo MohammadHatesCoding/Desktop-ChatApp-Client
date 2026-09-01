@@ -150,7 +150,7 @@ public sealed class CreateAccountViewModel : ViewModelBase
             {
                 _authSession.SetPhoneNumber(PhoneNumber);
 
-                _navigationService.NavigateTo<VerifyOtpViewModel>();
+                await _navigationService.NavigateTo<VerifyOtpViewModel>();
             }
         }
         catch (Exception)
@@ -206,8 +206,8 @@ public sealed class CreateAccountViewModel : ViewModelBase
         return isValid;
     }
 
-    private void NavigateToSignIn()
+    private async void NavigateToSignIn()
     {
-        _navigationService.NavigateTo<LoginViewModel>();
+        await _navigationService.NavigateTo<LoginViewModel>();
     }
 }

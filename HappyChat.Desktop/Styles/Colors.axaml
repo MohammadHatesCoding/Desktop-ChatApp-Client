@@ -8,6 +8,8 @@
 	<Color x:Key="CardColor">#0D0F13</Color>
 	<Color x:Key="InputColor">#1A1C20</Color>
 
+	<Color x:Key="OnlineColor">#10B981</Color>
+
 	<Color x:Key="BorderColor">#2A2D33</Color>
 	<Color x:Key="BorderHoverColor">#3A3F49</Color>
 
@@ -22,8 +24,9 @@
 	<Color x:Key="ErrorColor">#EF4444</Color>
 	<Color x:Key="GlowColor">#2563EB</Color>
 
-	<SolidColorBrush x:Key="BackgroundBrush"
-                     Color="{StaticResource BackgroundColor}" />
+	<SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}" />
+
+	<SolidColorBrush x:Key="OnlineBrush" Color="{StaticResource OnlineColor}" />
 
 	<SolidColorBrush x:Key="CardBrush"
                      Color="{StaticResource CardColor}" />

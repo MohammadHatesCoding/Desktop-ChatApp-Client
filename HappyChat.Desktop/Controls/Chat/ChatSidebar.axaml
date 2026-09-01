@@ -1,0 +1,122 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:chat="using:HappyChat.Desktop.Controls.Chat"
+
+    x:Class="HappyChat.Desktop.Controls.Chat.ChatSidebar">
+
+
+	<Grid
+		Background="{DynamicResource BackgroundSecondaryColor}">
+
+
+		<Grid
+			RowDefinitions="Auto,Auto,Auto,*">
+
+
+			<StackPanel
+				Orientation="Horizontal"
+
+				Margin="20"
+
+				Spacing="10">
+
+
+				<Border
+					Width="32"
+
+					Height="32"
+
+					CornerRadius="16"
+
+					Background="{DynamicResource PrimaryBrush}">
+
+
+					<TextBlock
+						Text="✦"
+
+						Foreground="White"
+
+						HorizontalAlignment="Center"
+
+						VerticalAlignment="Center"/>
+
+
+				</Border>
+
+
+				<TextBlock
+					Text="Nexus"
+
+					Classes="ChatBrandText"
+
+					VerticalAlignment="Center"/>
+
+
+			</StackPanel>
+
+
+
+			<Button
+				Grid.Row="1"
+
+				Margin="16"
+
+				Height="42"
+
+				Classes="NexusPrimaryButton"
+
+				Command="{Binding NewChatCommand}"
+
+				Content="+   New Chat"/>
+
+
+
+			<TextBox
+				Grid.Row="2"
+
+				Margin="16"
+
+				Height="40"
+
+				Classes="NexusSearchInput"
+
+				Watermark="Search..."
+
+				Text="{Binding SearchText, Mode=TwoWay}"/>
+
+
+
+			<ScrollViewer
+				Grid.Row="3">
+
+
+				<ItemsControl
+					ItemsSource="{Binding Conversations}">
+
+
+					<ItemsControl.ItemTemplate>
+
+						<DataTemplate>
+
+							<chat:ConversationItem/>
+
+						</DataTemplate>
+
+					</ItemsControl.ItemTemplate>
+
+
+				</ItemsControl>
+
+
+			</ScrollViewer>
+
+
+		</Grid>
+
+
+	</Grid>
+
+
+</UserControl>

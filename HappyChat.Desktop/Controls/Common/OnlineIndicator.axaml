@@ -1,0 +1,17 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Common.OnlineIndicator"
+    x:Name="Root">
+
+
+	<Border
+        Width="{Binding Size, ElementName=Root}"
+        Height="{Binding Size, ElementName=Root}"
+        CornerRadius="{Binding Radius, ElementName=Root}"
+        Background="{DynamicResource OnlineBrush}"
+        BorderBrush="{DynamicResource BackgroundSecondaryColor}"
+        BorderThickness="{Binding BorderThickness, ElementName=Root}"/>
+
+
+</UserControl>

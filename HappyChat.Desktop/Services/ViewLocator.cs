@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using HappyChat.Desktop.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace HappyChat.Desktop.Services;
@@ -14,9 +15,15 @@ public sealed class ViewLocator : IDataTemplate
 
         var viewModelType = data.GetType();
 
-        var viewTypeName = viewModelType.FullName!.Replace(".ViewModels.", ".Views.").Replace("ViewModel","View");
+        var viewTypeName =
+            viewModelType.FullName!
+                .Replace(".ViewModels.", ".Views.")
+                .Replace("ViewModel", "View");
 
-        var viewType =Type.GetType(viewTypeName);
+
+        var viewType =
+            Type.GetType(viewTypeName);
+
 
         if (viewType is null)
         {
@@ -26,7 +33,9 @@ public sealed class ViewLocator : IDataTemplate
             };
         }
 
-        if (Activator.CreateInstance(viewType) is not Control view)
+
+        if (Activator.CreateInstance(viewType)
+            is not Control view)
         {
             return new TextBlock
             {
@@ -34,8 +43,13 @@ public sealed class ViewLocator : IDataTemplate
             };
         }
 
+
+        view.DataContext = data;
+
+
         return view;
     }
+
 
     public bool Match(object? data)
     {

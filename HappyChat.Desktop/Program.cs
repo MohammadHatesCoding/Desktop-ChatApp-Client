@@ -32,7 +32,7 @@ internal static class Program
 
         services.AddTransient<VerifyOtpViewModel>();
 
-        services.AddTransient<ChatViewModel>();
+        services.AddSingleton<ChatViewModel>();
 
         Services = services.BuildServiceProvider();
 

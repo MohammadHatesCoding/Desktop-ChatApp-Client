@@ -1,0 +1,61 @@
+﻿<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:HappyChat.Desktop.Controls.Common"
+    x:Class="HappyChat.Desktop.Controls.Chat.ChatHeader">
+
+	<Border
+        Background="{DynamicResource BackgroundSecondaryColor}"
+        BorderBrush="{DynamicResource BorderBrush}"
+        BorderThickness="0,0,0,1">
+
+		<Grid
+            ColumnDefinitions="Auto,*,Auto"
+            Margin="18,0">
+
+			<common:AvatarControl
+                Grid.Column="0"
+                Size="40"
+                Initials="{Binding SelectedConversationInitials}"
+                AvatarBrush="{Binding SelectedConversationAvatarBrush}"
+                IsOnline="{Binding SelectedConversationIsOnline}" />
+
+			<StackPanel
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center">
+
+				<TextBlock
+                    Text="{Binding SelectedConversationName}"
+                    Classes="ChatHeaderTitle" />
+
+				<TextBlock
+                    Text="{Binding SelectedConversationStatus}"
+                    Classes="ChatHeaderSubtitle" />
+				
+			</StackPanel>
+
+			<StackPanel
+                Grid.Column="2"
+                Orientation="Horizontal"
+                Spacing="4">
+
+				<Button
+                    Classes="NexusIconButton"
+                    Content="⌕" />
+
+				<Button
+                    Classes="NexusIconButton"
+                    Content="◉" />
+
+				<Button
+                    Classes="NexusIconButton"
+                    Content="⋯" />
+
+			</StackPanel>
+
+		</Grid>
+
+	</Border>
+
+</UserControl>
