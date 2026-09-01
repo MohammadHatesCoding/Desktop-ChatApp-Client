@@ -12,6 +12,8 @@ public static class DependencyInjection
 
         services.AddHttpClient<IChatService, ChatApiClient>(x => { x.BaseAddress = new Uri("https://localhost:7271/api/"); });
 
+        services.AddHttpClient<IMessageService, MessageApiClient>(x => { x.BaseAddress = new Uri("https://localhost:7271/api/"); });
+
         return services;
     }
 }

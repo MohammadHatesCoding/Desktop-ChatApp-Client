@@ -12,6 +12,7 @@ namespace HappyChat.Desktop.ViewModels.Chat;
 public sealed class ChatViewModel : ViewModelBase
 {
     private readonly IChatService _chatService;
+    private readonly IMessageService _messageService;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
     private readonly ObservableCollection<ConversationItemViewModel> _allConversations = new();
@@ -34,10 +35,10 @@ public sealed class ChatViewModel : ViewModelBase
     private bool _isSendingMessage;
 
 
-    public ChatViewModel(IChatService chatService)
+    public ChatViewModel(IChatService chatService, IMessageService messageService)
     {
         _chatService = chatService;
-
+        _messageService = messageService;
         Conversations = new ObservableCollection<ConversationItemViewModel>();
         Messages = new ObservableCollection<MessageItemViewModel>();
 
@@ -431,16 +432,49 @@ public sealed class ChatViewModel : ViewModelBase
     }
 
 
-    private void SendMessage()
-    {
-        /*
-         * API ارسال پیام هنوز اضافه نشده.
-         *
-         * بعد از اضافه شدن SendMessage API
-         * این قسمت به Backend وصل می‌شود.
-         */
-    }
+    // =========================================================
+    // Send Message
+    // =========================================================
 
+    private async void SendMessage()
+    {
+        if (!CanSendMessage)
+            return;
+
+        if (SelectedConversation is null)
+            return;
+
+        var content = MessageText.Trim();
+
+        if (string.IsNullOrWhiteSpace(content))
+            return;
+
+        try
+        {
+            ErrorMessage = string.Empty;
+
+            _isSendingMessage = true;
+
+            await _messageService.SendMessage(ChatId: SelectedConversation.ChatId, ReceiverUserId: null, 
+                Content: content, RepliedTo: null, cancellationToken: _cancellationTokenSource.Token);
+
+            MessageText = string.Empty;
+
+            await LoadMessagesAsync(SelectedConversation.ChatId);
+        }
+        catch (OperationCanceledException)
+        {
+
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Unable to send message.";
+        }
+        finally
+        {
+            _isSendingMessage = false;
+        }
+    }
 
     public void Dispose()
     {
