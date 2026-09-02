@@ -7,8 +7,9 @@
     <ScrollViewer
 		x:Name="MessageScrollViewer"
         VerticalScrollBarVisibility="Auto">
-    
-    	<ItemsControl
+
+		<ItemsControl
+			x:Name="MessagesList"
     		ItemsSource="{Binding Messages}"
     		IsVisible="{Binding SelectedConversation}">
         

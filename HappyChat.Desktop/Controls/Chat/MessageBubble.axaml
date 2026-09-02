@@ -9,8 +9,33 @@
         <StackPanel
             HorizontalAlignment="{Binding BubbleAlignment}"
             MaxWidth="620">
-        
-            <Border
+
+
+			<Border
+				IsVisible="{Binding HasReply}"
+				Background="#111827"
+				Padding="8"
+				Margin="0,0,0,6"
+				CornerRadius="6"
+				PointerPressed="ReplyPreview_OnPointerPressed">
+
+				<StackPanel>
+
+					<TextBlock
+						Text="Replying to"
+						FontSize="10"
+						Foreground="{DynamicResource MutedTextBrush}"/>
+
+					<TextBlock
+						Text="{Binding ReplyPreviewText}"
+						FontSize="11"
+						TextWrapping="Wrap"/>
+
+				</StackPanel>
+
+			</Border>
+
+			<Border
                 Background="{Binding BubbleBackground}"
                 CornerRadius="12"
                 Padding="13,9">

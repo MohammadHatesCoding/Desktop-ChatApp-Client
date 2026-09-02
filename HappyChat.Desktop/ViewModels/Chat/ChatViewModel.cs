@@ -66,6 +66,8 @@ public sealed class ChatViewModel : ViewModelBase
 
     public ICommand CancelReplyCommand { get; }
 
+    public event Action<int>? ScrollToMessageRequested;
+
     public string SearchText
     {
         get => _searchText;
@@ -76,6 +78,11 @@ public sealed class ChatViewModel : ViewModelBase
                 ApplySearch();
             }
         }
+    }
+
+    public void ScrollToMessage(int messageId)
+    {
+        ScrollToMessageRequested?.Invoke(messageId);
     }
 
     public MessageItemViewModel? ReplyingToMessage
@@ -403,7 +410,7 @@ public sealed class ChatViewModel : ViewModelBase
 
             foreach (var message in messages)
             {
-                Messages.Add(new MessageItemViewModel(message));
+                Messages.Add(new MessageItemViewModel(message, messages));
             }
         }
         catch (OperationCanceledException)

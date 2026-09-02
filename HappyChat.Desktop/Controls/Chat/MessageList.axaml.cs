@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using HappyChat.Desktop.ViewModels.Chat;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace HappyChat.Desktop.Controls.Chat;
 
@@ -31,6 +33,8 @@ public partial class MessageList : UserControl
         {
             _chatViewModel.Messages.CollectionChanged += OnMessagesCollectionChanged;
 
+            _chatViewModel.ScrollToMessageRequested += ScrollToMessage;
+
             ScrollToBottom();
         }
     }
@@ -50,5 +54,42 @@ public partial class MessageList : UserControl
         Dispatcher.UIThread
             .Post(() => { MessageScrollViewer.ScrollToEnd(); },
                 DispatcherPriority.Loaded);
+    }
+
+    private void ScrollToMessage(int messageId)
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            var index = FindMessageIndex(messageId);
+
+            if (index < 0)
+                return;
+
+
+            var container =
+                MessagesList.GetVisualDescendants()
+                    .OfType<Control>()
+                    .FirstOrDefault(x =>
+                        x.DataContext is MessageItemViewModel message &&
+                        message.Id == messageId);
+
+
+            container?.BringIntoView();
+
+        });
+    }
+
+    private int FindMessageIndex(int messageId)
+    {
+        if (_chatViewModel is null)
+            return -1;
+
+        for (int i = 0; i < _chatViewModel.Messages.Count; i++)
+        {
+            if (_chatViewModel.Messages[i].Id == messageId)
+                return i;
+        }
+
+        return -1;
     }
 }

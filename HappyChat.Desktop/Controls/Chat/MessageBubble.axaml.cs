@@ -58,4 +58,23 @@ public partial class MessageBubble : UserControl
 
         e.Handled = true;
     }
+
+    private void ReplyPreview_OnPointerPressed(
+        object? sender,
+        PointerPressedEventArgs e)
+    {
+        if (DataContext is not MessageItemViewModel message)
+            return;
+
+        if (message.ReplyTargetId is null)
+            return;
+
+
+        var chatViewModel =
+            this.FindAncestorOfType<ChatView>()?
+                .DataContext as ChatViewModel;
+
+
+        chatViewModel?.ScrollToMessage(message.ReplyTargetId.Value);
+    }
 }

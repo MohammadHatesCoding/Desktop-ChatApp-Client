@@ -4,12 +4,15 @@ using Avalonia.Media;
 using HappyChat.Application.DTOs.Chat;
 using HappyChat.Shared.Enum;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HappyChat.Desktop.ViewModels.Chat;
 
 public sealed class MessageItemViewModel
 {
-    public MessageItemViewModel(GetMessagesResponse message)
+    public MessageItemViewModel(GetMessagesResponse message,
+        IReadOnlyList<GetMessagesResponse> allMessages)
     {
         Id = message.Id;
         SenderId = message.SenderId;
@@ -21,6 +24,13 @@ public sealed class MessageItemViewModel
         SentAt = message.SentAt;
         IsEdited = message.IsEdited;
         IsMine = message.IsMine;
+
+        if (RepliedTo.HasValue)
+        {
+            var repliedMessage = allMessages.FirstOrDefault(x => x.Id == RepliedTo.Value);
+
+            ReplyPreviewText = repliedMessage?.Content ?? "Message unavailable";
+        }
 
         AvatarBrush = GetAvatarBrush(SenderName);
 
@@ -51,8 +61,13 @@ public sealed class MessageItemViewModel
 
     public string Initials { get; }
 
+    public string? ReplyPreviewText { get; }
+
     public bool HasReply =>
-        RepliedTo.HasValue;
+        RepliedTo.HasValue &&
+        !string.IsNullOrWhiteSpace(ReplyPreviewText);
+
+    public int? ReplyTargetId => RepliedTo;
 
     public bool HasReaction =>
         false;
