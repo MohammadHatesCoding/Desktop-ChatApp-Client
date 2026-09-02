@@ -14,6 +14,8 @@ public partial class MessageList : UserControl
         InitializeComponent();
 
         DataContextChanged += OnDataContextChanged;
+
+        SizeChanged += OnSizeChanged;
     }
 
     private void OnDataContextChanged(object? sender, System.EventArgs e)
@@ -31,6 +33,11 @@ public partial class MessageList : UserControl
 
             ScrollToBottom();
         }
+    }
+
+    private void OnSizeChanged(object? sender, SizeChangedEventArgs e)
+    {
+        ScrollToBottom();
     }
 
     private void OnMessagesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

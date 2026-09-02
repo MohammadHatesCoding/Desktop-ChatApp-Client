@@ -23,6 +23,7 @@ public sealed class ChatViewModel : ViewModelBase
     private string _selectedConversationInitials = string.Empty;
     private string _selectedConversationAvatarBrush = "#2563EB";
     private string _selectedConversationStatus = string.Empty;
+    private MessageItemViewModel? _replyingToMessage;
 
     private string _errorMessage = string.Empty;
 
@@ -46,6 +47,7 @@ public sealed class ChatViewModel : ViewModelBase
         NewChatCommand = new RelayCommand(NewChat);
         SendMessageCommand = new RelayCommand(SendMessage, () => CanSendMessage);
         SearchCommand = new RelayCommand(ApplySearch);
+        CancelReplyCommand = new RelayCommand(CancelReply);
     }
 
 
@@ -62,6 +64,7 @@ public sealed class ChatViewModel : ViewModelBase
 
     public ICommand SearchCommand { get; }
 
+    public ICommand CancelReplyCommand { get; }
 
     public string SearchText
     {
@@ -74,6 +77,27 @@ public sealed class ChatViewModel : ViewModelBase
             }
         }
     }
+
+    public MessageItemViewModel? ReplyingToMessage
+    {
+        get => _replyingToMessage;
+        private set
+        {
+            if (SetProperty(ref _replyingToMessage, value))
+            {
+                OnPropertyChanged(nameof(IsReplying));
+                OnPropertyChanged(nameof(ReplyPreviewText));
+            }
+        }
+    }
+
+
+    public bool IsReplying =>
+        ReplyingToMessage is not null;
+
+
+    public string ReplyPreviewText => ReplyingToMessage is null ? string.Empty : ReplyingToMessage.Text.Length > 50
+                ? ReplyingToMessage.Text[..50] + "..." : ReplyingToMessage.Text;
 
 
     public string MessageText
@@ -432,6 +456,16 @@ public sealed class ChatViewModel : ViewModelBase
     }
 
 
+    public void ReplyToMessage(MessageItemViewModel message)
+    {
+        ReplyingToMessage = message;
+    }
+
+    public void CancelReply()
+    {
+        ReplyingToMessage = null;
+    }
+
     // =========================================================
     // Send Message
     // =========================================================
@@ -456,9 +490,11 @@ public sealed class ChatViewModel : ViewModelBase
             _isSendingMessage = true;
 
             await _messageService.SendMessage(ChatId: SelectedConversation.ChatId, ReceiverUserId: null, 
-                Content: content, RepliedTo: null, cancellationToken: _cancellationTokenSource.Token);
+                Content: content, RepliedTo: ReplyingToMessage?.Id, cancellationToken: _cancellationTokenSource.Token);
 
             MessageText = string.Empty;
+
+            ReplyingToMessage = null;
 
             await LoadMessagesAsync(SelectedConversation.ChatId);
         }

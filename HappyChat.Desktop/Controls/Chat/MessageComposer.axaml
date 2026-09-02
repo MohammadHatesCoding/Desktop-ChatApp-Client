@@ -3,46 +3,92 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     x:Class="HappyChat.Desktop.Controls.Chat.MessageComposer">
 
-    <Border
+	<Border
         Background="{DynamicResource BackgroundSecondaryColor}"
         BorderBrush="{DynamicResource BorderBrush}"
         BorderThickness="0,1,0,0"
         Padding="16,10">
-    
-        <Grid
-            ColumnDefinitions="Auto,*,Auto,Auto,Auto">
-        
-            <Button
-                Classes="NexusIconButton"
-                Content="⌕"/>
 
-			<TextBox
-				x:Name="MessageInput"
-                Grid.Column="1"
-                Classes="NexusChatInput"
-                Text="{Binding MessageText,Mode=TwoWay}"
-                Watermark="Type a message..."
-                Margin="8,0"/>
-            
-            <Button
-                Grid.Column="2"
-                Classes="NexusIconButton"
-                Content="☺"/>
-            
-            <Button
-                Grid.Column="3"
-                Classes="NexusIconButton"
-                Content="♩"/>
-                
-            <Button
-                Grid.Column="4"
-                Classes="NexusSendButton"
-                Command="{Binding SendMessageCommand}"
-                IsEnabled="{Binding CanSendMessage}"
-                Content="➤"/>
-            
-        </Grid>
-    
-    </Border>
+		<StackPanel>
+
+
+			<!-- Reply Preview -->
+			<Border
+                IsVisible="{Binding IsReplying}"
+                Background="{DynamicResource BackgroundPrimaryColor}"
+                Padding="12,8"
+                Margin="0,0,0,8">
+
+				<Grid ColumnDefinitions="*,Auto">
+
+					<StackPanel>
+
+						<TextBlock
+                            Text="Replying to"
+                            FontSize="11"
+                            Foreground="{DynamicResource MutedTextBrush}"/>
+
+						<TextBlock
+                            Text="{Binding ReplyPreviewText}"
+                            FontSize="12"
+                            TextWrapping="Wrap"/>
+
+					</StackPanel>
+
+
+					<Button
+                        Grid.Column="1"
+                        Content="✕"
+                        Command="{Binding CancelReplyCommand}"/>
+
+				</Grid>
+
+			</Border>
+
+
+
+			<!-- Message Input -->
+			<Grid
+                ColumnDefinitions="Auto,*,Auto,Auto,Auto">
+
+				<Button
+                    Classes="NexusIconButton"
+                    Content="⌕"/>
+
+
+				<TextBox
+                    x:Name="MessageInput"
+                    Grid.Column="1"
+                    Classes="NexusChatInput"
+                    Text="{Binding MessageText,Mode=TwoWay}"
+                    Watermark="Type a message..."
+                    Margin="8,0"/>
+
+
+				<Button
+                    Grid.Column="2"
+                    Classes="NexusIconButton"
+                    Content="☺"/>
+
+
+				<Button
+                    Grid.Column="3"
+                    Classes="NexusIconButton"
+                    Content="♩"/>
+
+
+				<Button
+                    Grid.Column="4"
+                    Classes="NexusSendButton"
+                    Command="{Binding SendMessageCommand}"
+                    IsEnabled="{Binding CanSendMessage}"
+                    Content="➤"/>
+
+			</Grid>
+
+
+		</StackPanel>
+
+	</Border>
 
 </UserControl>

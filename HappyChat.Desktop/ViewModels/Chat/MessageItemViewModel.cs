@@ -9,8 +9,7 @@ namespace HappyChat.Desktop.ViewModels.Chat;
 
 public sealed class MessageItemViewModel
 {
-    public MessageItemViewModel(
-        GetMessagesResponse message)
+    public MessageItemViewModel(GetMessagesResponse message)
     {
         Id = message.Id;
         SenderId = message.SenderId;
@@ -18,15 +17,14 @@ public sealed class MessageItemViewModel
         Text = message.Content;
         RepliedTo = message.RepliedTo;
         Status = message.Status;
+        Type = MessageType.Text;
         SentAt = message.SentAt;
         IsEdited = message.IsEdited;
         IsMine = message.IsMine;
 
-        AvatarBrush =
-            GetAvatarBrush(SenderName);
+        AvatarBrush = GetAvatarBrush(SenderName);
 
-        Initials =
-            GetInitials(SenderName);
+        Initials = GetInitials(SenderName);
     }
 
     public int Id { get; }
@@ -40,6 +38,8 @@ public sealed class MessageItemViewModel
     public int? RepliedTo { get; }
 
     public MessageStatus Status { get; }
+
+    public MessageType Type { get; }
 
     public DateTime SentAt { get; }
 

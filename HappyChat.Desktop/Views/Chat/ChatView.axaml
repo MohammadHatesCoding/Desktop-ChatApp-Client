@@ -30,7 +30,7 @@
 
 			<Grid
                 Grid.Column="1"
-                RowDefinitions="64,*,70">
+                RowDefinitions="64,*,Auto">
 
 
 				<!-- ============================= -->
