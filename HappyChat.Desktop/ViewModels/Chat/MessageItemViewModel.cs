@@ -2,6 +2,7 @@
 using Avalonia.Layout;
 using Avalonia.Media;
 using HappyChat.Application.DTOs.Chat;
+using HappyChat.Shared.Enum;
 using System;
 
 namespace HappyChat.Desktop.ViewModels.Chat;
@@ -38,7 +39,7 @@ public sealed class MessageItemViewModel
 
     public int? RepliedTo { get; }
 
-    public object Status { get; }
+    public MessageStatus Status { get; }
 
     public DateTime SentAt { get; }
 
@@ -59,8 +60,9 @@ public sealed class MessageItemViewModel
     public string Reaction =>
         string.Empty;
 
-    public bool ShowReadReceipt =>
-        IsMine;
+    public bool ShowSentReceipt => IsMine && Status == MessageStatus.Sent;
+
+    public bool ShowReadReceipt => IsMine && Status == MessageStatus.Seen;
 
     public HorizontalAlignment BubbleAlignment =>
         IsMine
