@@ -1,39 +1,27 @@
-﻿using Avalonia;
-using Avalonia.Layout;
+﻿using Avalonia.Layout;
 using Avalonia.Media;
 using HappyChat.Application.DTOs.Chat;
 using HappyChat.Shared.Enum;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HappyChat.Desktop.ViewModels.Chat;
 
 public sealed class MessageItemViewModel
 {
-    public MessageItemViewModel(GetMessagesResponse message,
-        IReadOnlyList<GetMessagesResponse> allMessages)
+    public MessageItemViewModel(GetMessagesResponse message)
     {
         Id = message.Id;
         SenderId = message.SenderId;
         SenderName = message.SenderName;
         Text = message.Content;
         RepliedTo = message.RepliedTo;
+        RepliedMessagePreviewContent = message.RepliedMessagePreviewContent;
         Status = message.Status;
-        Type = MessageType.Text;
         SentAt = message.SentAt;
         IsEdited = message.IsEdited;
         IsMine = message.IsMine;
 
-        if (RepliedTo.HasValue)
-        {
-            var repliedMessage = allMessages.FirstOrDefault(x => x.Id == RepliedTo.Value);
-
-            ReplyPreviewText = repliedMessage?.Content ?? "Message unavailable";
-        }
-
         AvatarBrush = GetAvatarBrush(SenderName);
-
         Initials = GetInitials(SenderName);
     }
 
@@ -47,9 +35,15 @@ public sealed class MessageItemViewModel
 
     public int? RepliedTo { get; }
 
-    public MessageStatus Status { get; }
+    public int? ReplyTargetId => RepliedTo;
 
-    public MessageType Type { get; }
+    public string? RepliedMessagePreviewContent { get; }
+
+    public bool HasReply =>
+        RepliedTo.HasValue &&
+        !string.IsNullOrWhiteSpace(RepliedMessagePreviewContent);
+
+    public MessageStatus Status { get; }
 
     public DateTime SentAt { get; }
 
@@ -57,27 +51,26 @@ public sealed class MessageItemViewModel
 
     public bool IsMine { get; }
 
+    public MessageType Type { get; } = MessageType.Text;
+
+    public bool IsFile =>
+        Type == MessageType.File;
+
     public string AvatarBrush { get; }
 
     public string Initials { get; }
 
-    public string? ReplyPreviewText { get; }
+    public bool HasReaction => false;
 
-    public bool HasReply =>
-        RepliedTo.HasValue &&
-        !string.IsNullOrWhiteSpace(ReplyPreviewText);
+    public string Reaction => string.Empty;
 
-    public int? ReplyTargetId => RepliedTo;
+    public bool ShowSentReceipt =>
+        IsMine &&
+        Status == MessageStatus.Sent;
 
-    public bool HasReaction =>
-        false;
-
-    public string Reaction =>
-        string.Empty;
-
-    public bool ShowSentReceipt => IsMine && Status == MessageStatus.Sent;
-
-    public bool ShowReadReceipt => IsMine && Status == MessageStatus.Seen;
+    public bool ShowReadReceipt =>
+        IsMine &&
+        Status == MessageStatus.Seen;
 
     public HorizontalAlignment BubbleAlignment =>
         IsMine
@@ -86,41 +79,33 @@ public sealed class MessageItemViewModel
 
     public IBrush BubbleBackground =>
         IsMine
-            ? new SolidColorBrush(
-                Color.Parse("#2563EB"))
-            : new SolidColorBrush(
-                Color.Parse("#17191D"));
+            ? new SolidColorBrush(Color.Parse("#2563EB"))
+            : new SolidColorBrush(Color.Parse("#17191D"));
 
     public IBrush BubbleBorderBrush =>
         IsMine
-            ? new SolidColorBrush(
-                Color.Parse("#3474F2"))
-            : new SolidColorBrush(
-                Color.Parse("#20242C"));
+            ? new SolidColorBrush(Color.Parse("#3474F2"))
+            : new SolidColorBrush(Color.Parse("#20242C"));
 
     public BoxShadows BubbleShadow =>
         IsMine
-            ? new BoxShadows(
-                new BoxShadow
-                {
-                    OffsetX = 0,
-                    OffsetY = 3,
-                    Blur = 18,
-                    Spread = 0,
-                    Color = Color.Parse("#402563EB")
-                })
+            ? new BoxShadows(new BoxShadow
+            {
+                OffsetX = 0,
+                OffsetY = 3,
+                Blur = 18,
+                Spread = 0,
+                Color = Color.Parse("#402563EB")
+            })
             : new BoxShadows();
 
     public IBrush BubbleForeground =>
-        new SolidColorBrush(
-            Color.Parse("#F8FAFC"));
+        new SolidColorBrush(Color.Parse("#F8FAFC"));
 
     public IBrush MetaForeground =>
         IsMine
-            ? new SolidColorBrush(
-                Color.Parse("#9DB8F5"))
-            : new SolidColorBrush(
-                Color.Parse("#53627D"));
+            ? new SolidColorBrush(Color.Parse("#9DB8F5"))
+            : new SolidColorBrush(Color.Parse("#53627D"));
 
     public string TimeText =>
         SentAt.ToString("h:mm tt");
@@ -130,51 +115,41 @@ public sealed class MessageItemViewModel
             ? "edited"
             : string.Empty;
 
-    private static string GetInitials(
-        string? name)
+    private static string GetInitials(string? name)
     {
         if (string.IsNullOrWhiteSpace(name))
             return "?";
 
-        var parts =
-            name.Split(
-                ' ',
-                StringSplitOptions.RemoveEmptyEntries);
+        var parts = name.Split(
+            ' ',
+            StringSplitOptions.RemoveEmptyEntries);
 
         if (parts.Length == 1)
-        {
-            return parts[0][..1]
-                .ToUpperInvariant();
-        }
+            return parts[0][..1].ToUpperInvariant();
 
-        return
-            $"{parts[0][0]}{parts[^1][0]}"
-                .ToUpperInvariant();
+        return $"{parts[0][0]}{parts[^1][0]}"
+            .ToUpperInvariant();
     }
 
-    private static string GetAvatarBrush(
-        string? name)
+    private static string GetAvatarBrush(string? name)
     {
         if (string.IsNullOrWhiteSpace(name))
             return "#2563EB";
 
-        var brushes =
-            new[]
-            {
-                "#2563EB",
-                "#8B5CF6",
-                "#10B981",
-                "#EC4899",
-                "#F97316",
-                "#06B6D4",
-                "#6366F1",
-                "#3B82F6"
-            };
+        var brushes = new[]
+        {
+            "#2563EB",
+            "#8B5CF6",
+            "#10B981",
+            "#EC4899",
+            "#F97316",
+            "#06B6D4",
+            "#6366F1",
+            "#3B82F6"
+        };
 
-        var hash =
-            Math.Abs(name.GetHashCode());
+        var hash = Math.Abs(name.GetHashCode());
 
-        return brushes[
-            hash % brushes.Length];
+        return brushes[hash % brushes.Length];
     }
 }

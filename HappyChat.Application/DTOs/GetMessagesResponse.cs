@@ -8,6 +8,7 @@ public sealed record GetMessagesResponse(
     string SenderName,
     string Content,
     int? RepliedTo,
+    string? RepliedMessagePreviewContent,
     MessageStatus Status,
     DateTime SentAt,
     bool IsEdited,

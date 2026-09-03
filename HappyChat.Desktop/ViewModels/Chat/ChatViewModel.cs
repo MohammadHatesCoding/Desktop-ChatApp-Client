@@ -3,6 +3,7 @@ using HappyChat.Application.Interfaces;
 using HappyChat.Desktop.Commands;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -35,6 +36,10 @@ public sealed class ChatViewModel : ViewModelBase
     private bool _isLoadingMessages;
     private bool _isSendingMessage;
 
+    private const int MessagePageSize = 30;
+    private int _currentMessagePage = 1;
+    private bool _hasMoreMessages = true;
+    private bool _isLoadingOlderMessages;
 
     public ChatViewModel(IChatService chatService, IMessageService messageService)
     {
@@ -79,6 +84,14 @@ public sealed class ChatViewModel : ViewModelBase
             }
         }
     }
+
+    public bool IsLoadingOlderMessages
+    {
+        get => _isLoadingOlderMessages;
+        private set => SetProperty(ref _isLoadingOlderMessages, value);
+    }
+
+    public bool HasMoreMessages => _hasMoreMessages;
 
     public void ScrollToMessage(int messageId)
     {
@@ -400,17 +413,30 @@ public sealed class ChatViewModel : ViewModelBase
         {
             IsLoadingMessages = true;
 
+            _currentMessagePage = 1;
+            _hasMoreMessages = true;
+
+            OnPropertyChanged(nameof(HasMoreMessages));
+
             var messages = await _chatService.GetMessagesAsync(
                 chatId,
                 page: 1,
-                pageSize: 30,
+                pageSize: MessagePageSize,
                 cancellationToken: _cancellationTokenSource.Token);
 
             Messages.Clear();
 
-            foreach (var message in messages)
+            foreach (var message in messages
+                         .OrderBy(x => x.SentAt)
+                         .ThenBy(x => x.Id))
             {
-                Messages.Add(new MessageItemViewModel(message, messages));
+                Messages.Add(new MessageItemViewModel(message));
+            }
+
+            if (messages.Count < MessagePageSize)
+            {
+                _hasMoreMessages = false;
+                OnPropertyChanged(nameof(HasMoreMessages));
             }
         }
         catch (OperationCanceledException)
@@ -426,6 +452,75 @@ public sealed class ChatViewModel : ViewModelBase
         }
     }
 
+    public async Task LoadOlderMessagesAsync()
+    {
+        if (SelectedConversation is null)
+            return;
+
+        if (IsLoadingOlderMessages)
+            return;
+
+        if (!_hasMoreMessages)
+            return;
+
+        try
+        {
+            IsLoadingOlderMessages = true;
+
+            var nextPage = _currentMessagePage + 1;
+
+            var messages = await _chatService.GetMessagesAsync(
+                SelectedConversation.ChatId,
+                page: nextPage,
+                pageSize: MessagePageSize,
+                cancellationToken: _cancellationTokenSource.Token);
+
+            if (messages.Count == 0)
+            {
+                _hasMoreMessages = false;
+                OnPropertyChanged(nameof(HasMoreMessages));
+                return;
+            }
+
+            var olderMessages = messages
+                .OrderBy(x => x.SentAt)
+                .ThenBy(x => x.Id)
+                .ToList();
+
+            var existingIds = Messages
+                .Select(x => x.Id)
+                .ToHashSet();
+
+            var newMessages = olderMessages
+                .Where(x => !existingIds.Contains(x.Id))
+                .Select(x => new MessageItemViewModel(x))
+                .ToList();
+
+            for (var i = newMessages.Count - 1; i >= 0; i--)
+            {
+                Messages.Insert(0, newMessages[i]);
+            }
+
+            _currentMessagePage = nextPage;
+
+            if (messages.Count < MessagePageSize)
+            {
+                _hasMoreMessages = false;
+                OnPropertyChanged(nameof(HasMoreMessages));
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Unable to load older messages.";
+        }
+        finally
+        {
+            IsLoadingOlderMessages = false;
+        }
+    }
 
     private void ApplySearch()
     {
@@ -503,7 +598,7 @@ public sealed class ChatViewModel : ViewModelBase
 
             ReplyingToMessage = null;
 
-            await LoadMessagesAsync(SelectedConversation.ChatId);
+            await RefreshLatestMessagesAsync(SelectedConversation.ChatId);
         }
         catch (OperationCanceledException)
         {
@@ -516,6 +611,29 @@ public sealed class ChatViewModel : ViewModelBase
         finally
         {
             _isSendingMessage = false;
+        }
+    }
+
+    private async Task RefreshLatestMessagesAsync(int chatId)
+    {
+        var messages = await _chatService.GetMessagesAsync(
+            chatId,
+            page: 1,
+            pageSize: MessagePageSize,
+            cancellationToken: _cancellationTokenSource.Token);
+
+        var existingIds = Messages
+            .Select(x => x.Id)
+            .ToHashSet();
+
+        foreach (var message in messages
+                     .OrderBy(x => x.SentAt)
+                     .ThenBy(x => x.Id))
+        {
+            if (existingIds.Contains(message.Id))
+                continue;
+
+            Messages.Add(new MessageItemViewModel(message));
         }
     }
 

@@ -27,7 +27,7 @@
 						Foreground="{DynamicResource MutedTextBrush}"/>
 
 					<TextBlock
-						Text="{Binding ReplyPreviewText}"
+						Text="{Binding RepliedMessagePreviewContent}"
 						FontSize="11"
 						TextWrapping="Wrap"/>
 

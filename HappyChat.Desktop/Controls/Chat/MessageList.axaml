@@ -4,27 +4,23 @@
     xmlns:chat="using:HappyChat.Desktop.Controls.Chat"
     x:Class="HappyChat.Desktop.Controls.Chat.MessageList">
 
-    <ScrollViewer
-		x:Name="MessageScrollViewer"
+	<ScrollViewer
+        x:Name="MessageScrollViewer"
         VerticalScrollBarVisibility="Auto">
 
 		<ItemsControl
-			x:Name="MessagesList"
-    		ItemsSource="{Binding Messages}"
-    		IsVisible="{Binding SelectedConversation}">
-        
-            <ItemsControl.ItemTemplate>
-            
-                <DataTemplate>
-                
-                    <chat:MessageBubble/>
-                    
-                </DataTemplate>
-            
-            </ItemsControl.ItemTemplate>     
-       
-        </ItemsControl>
-        
-    </ScrollViewer>
+            x:Name="MessagesList"
+            ItemsSource="{Binding Messages}"
+            IsVisible="{Binding SelectedConversation}">
+
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<chat:MessageBubble/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+
+		</ItemsControl>
+
+	</ScrollViewer>
 
 </UserControl>
