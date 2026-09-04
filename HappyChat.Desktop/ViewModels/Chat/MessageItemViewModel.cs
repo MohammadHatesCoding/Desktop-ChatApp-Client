@@ -6,21 +6,22 @@ using System;
 
 namespace HappyChat.Desktop.ViewModels.Chat;
 
-public sealed class MessageItemViewModel
+public sealed class MessageItemViewModel : ViewModelBase
 {
+    private string _text;
+    private bool _isEdited;
     public MessageItemViewModel(GetMessagesResponse message)
     {
         Id = message.Id;
         SenderId = message.SenderId;
         SenderName = message.SenderName;
-        Text = message.Content;
+        _text = message.Content;
+        _isEdited = message.IsEdited;
         RepliedTo = message.RepliedTo;
         RepliedMessagePreviewContent = message.RepliedMessagePreviewContent;
         Status = message.Status;
         SentAt = message.SentAt;
-        IsEdited = message.IsEdited;
         IsMine = message.IsMine;
-
         AvatarBrush = GetAvatarBrush(SenderName);
         Initials = GetInitials(SenderName);
     }
@@ -31,7 +32,7 @@ public sealed class MessageItemViewModel
 
     public string SenderName { get; }
 
-    public string Text { get; }
+    public string Text => _text;
 
     public int? RepliedTo { get; }
 
@@ -47,7 +48,7 @@ public sealed class MessageItemViewModel
 
     public DateTime SentAt { get; }
 
-    public bool IsEdited { get; }
+    public bool IsEdited => _isEdited;
 
     public bool IsMine { get; }
 
@@ -98,6 +99,16 @@ public sealed class MessageItemViewModel
                 Color = Color.Parse("#402563EB")
             })
             : new BoxShadows();
+
+    public void ApplyEdit(string content)
+    {
+        _text = content;
+        _isEdited = true;
+
+        OnPropertyChanged(nameof(Text));
+        OnPropertyChanged(nameof(IsEdited));
+        OnPropertyChanged(nameof(EditedText));
+    }
 
     public IBrush BubbleForeground =>
         new SolidColorBrush(Color.Parse("#F8FAFC"));

@@ -12,14 +12,12 @@ public partial class MessageBubble : UserControl
 {
     private MessageContextMenuService? _contextMenuService;
 
-
     public MessageBubble()
     {
         InitializeComponent();
 
         PointerPressed += OnPointerPressed;
     }
-
 
     private void OnPointerPressed(
         object? sender,
@@ -28,33 +26,30 @@ public partial class MessageBubble : UserControl
         if (!e.GetCurrentPoint(this).Properties.IsRightButtonPressed)
             return;
 
-
         if (DataContext is not MessageItemViewModel message)
             return;
 
+        var chatViewModel =
+            this.FindAncestorOfType<ChatView>()?
+                .DataContext as ChatViewModel;
 
-        if (DataContext is MessageItemViewModel)
-        {
-            var chatViewModel =
-                this.FindAncestorOfType<ChatView>()?
-                    .DataContext as ChatViewModel;
+        if (chatViewModel is null)
+            return;
 
+        var topLevel = TopLevel.GetTopLevel(this);
 
-            if (chatViewModel is null)
-                return;
+        if (topLevel is null)
+            return;
 
+        _contextMenuService =
+            new MessageContextMenuService(chatViewModel);
 
-            _contextMenuService =
-                new MessageContextMenuService(chatViewModel);
+        var menu =
+            _contextMenuService.Create(
+                message,
+                topLevel);
 
-
-            var menu =
-                _contextMenuService.Create(message);
-
-
-            menu.ShowAt(this, true);
-        }
-
+        menu.ShowAt(this, true);
 
         e.Handled = true;
     }
@@ -69,12 +64,11 @@ public partial class MessageBubble : UserControl
         if (message.ReplyTargetId is null)
             return;
 
-
         var chatViewModel =
             this.FindAncestorOfType<ChatView>()?
                 .DataContext as ChatViewModel;
 
-
-        chatViewModel?.ScrollToMessage(message.ReplyTargetId.Value);
+        chatViewModel?.ScrollToMessage(
+            message.ReplyTargetId.Value);
     }
 }

@@ -40,7 +40,7 @@
                 CornerRadius="12"
                 Padding="13,9">
             
-            <TextBlock
+            <SelectableTextBlock
                 Text="{Binding Text}"
                 Foreground="{Binding BubbleForeground}"
                 FontSize="12"
@@ -59,8 +59,14 @@
                     Text="{Binding TimeText}"
                     FontSize="9"
                     Foreground="{Binding MetaForeground}"/>
-                
-                <TextBlock
+
+				<TextBlock
+	                Text="{Binding EditedText}"
+                    FontSize="9"
+                	Foreground="{DynamicResource MutedTextBrush}"
+	                IsVisible="{Binding IsEdited}" />
+
+				<TextBlock
                 	Text="✓"
                 	FontSize="9"
                 	Foreground="{DynamicResource MutedTextBrush}"

@@ -46,6 +46,36 @@
 			</Border>
 
 
+			<!-- Edit Preview -->
+			<Border
+                IsVisible="{Binding IsEditing}"
+                Background="{DynamicResource BackgroundPrimaryColor}"
+                Padding="12,8"
+                Margin="0,0,0,8">
+
+				<Grid ColumnDefinitions="*,Auto">
+
+					<StackPanel>
+						<TextBlock
+							Text="Editing message"
+							FontSize="11"
+							Foreground="{DynamicResource MutedTextBrush}"/>
+
+						<TextBlock
+							Text="{Binding EditPreviewText}"
+							FontSize="12"
+							TextWrapping="Wrap"/>
+					</StackPanel>
+
+					<Button
+						Grid.Column="1"
+						Content="✕"
+						Command="{Binding CancelEditCommand}"/>
+
+				</Grid>
+
+			</Border>
+			
 
 			<!-- Message Input -->
 			<Grid

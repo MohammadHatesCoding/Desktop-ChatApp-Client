@@ -1,5 +1,7 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input.Platform;
 using HappyChat.Desktop.Commands;
+using HappyChat.Desktop.Controls.Chat;
 using HappyChat.Desktop.ViewModels.Chat;
 using HappyChat.Shared.Enum;
 using System;
@@ -9,23 +11,22 @@ namespace HappyChat.Desktop.Services;
 public sealed class MessageContextMenuService
 {
     private readonly ChatViewModel _chatViewModel;
+
     public MessageContextMenuService(ChatViewModel chatViewModel)
     {
         _chatViewModel = chatViewModel;
     }
-    public MenuFlyout Create(MessageItemViewModel message)
+
+    public MenuFlyout Create(
+        MessageItemViewModel message,
+        TopLevel topLevel)
     {
         var menu = new MenuFlyout();
-
 
         menu.Items.Add(
             CreateItem(
                 "Reply",
-                () =>
-                {
-                    _chatViewModel.ReplyToMessage(message);
-                }));
-
+                () => _chatViewModel.ReplyToMessage(message)));
 
         if (message.IsMine)
         {
@@ -34,51 +35,34 @@ public sealed class MessageContextMenuService
                 menu.Items.Add(
                     CreateItem(
                         "Edit",
-                        () =>
-                        {
-                            // بعداً Edit
-                        }));
-
+                        () => _chatViewModel.EditMessage(message)));
 
                 menu.Items.Add(
                     CreateItem(
                         "Copy Text",
-                        () =>
-                        {
-                            // بعداً Clipboard
-                        }));
-
+                        () => CopyTextAsync(message, topLevel)));
 
                 menu.Items.Add(
                     CreateItem(
                         "Delete",
-                        () =>
-                        {
-                            // بعداً Delete
-                        }));
+                        () => DeleteMessageAsync(message, topLevel)));
             }
             else
             {
                 menu.Items.Add(
                     CreateItem(
                         "Edit",
-                        () =>
-                        {
-                        }));
+                        () => { }));
 
                 menu.Items.Add(
                     CreateItem(
                         "Delete",
-                        () =>
-                        {
-                        }));
+                        () => { }));
 
                 menu.Items.Add(
                     CreateItem(
                         "Download",
-                        () =>
-                        {
-                        }));
+                        () => { }));
             }
         }
         else
@@ -88,27 +72,62 @@ public sealed class MessageContextMenuService
                 menu.Items.Add(
                     CreateItem(
                         "Copy Text",
-                        () =>
-                        {
-                        }));
+                        () => CopyTextAsync(message, topLevel)));
             }
             else
             {
                 menu.Items.Add(
                     CreateItem(
                         "Download",
-                        () =>
-                        {
-                        }));
+                        () => { }));
             }
         }
-
 
         return menu;
     }
 
+    private async void DeleteMessageAsync(
+        MessageItemViewModel message,
+        TopLevel topLevel)
+    {
+        if (topLevel is not Window owner)
+            return;
 
-    private MenuItem CreateItem(
+        var chatTitle =
+            _chatViewModel.SelectedConversationName;
+
+        var dialog =
+            new DeleteMessageDialog(chatTitle);
+
+        var deleteType =
+            await dialog.ShowDialog<DeleteType?>(owner);
+
+        if (deleteType is null)
+            return;
+
+        try
+        {
+            await _chatViewModel.DeleteMessageAsync(
+                message,
+                deleteType.Value);
+        }
+        catch
+        {
+            // Error handling can be added later.
+        }
+    }
+
+    private static async void CopyTextAsync(
+        MessageItemViewModel message,
+        TopLevel topLevel)
+    {
+        if (topLevel.Clipboard is null)
+            return;
+
+        await topLevel.Clipboard.SetTextAsync(message.Text);
+    }
+
+    private static MenuItem CreateItem(
         string header,
         Action action)
     {

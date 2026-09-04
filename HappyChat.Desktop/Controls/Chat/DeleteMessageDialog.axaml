@@ -1,0 +1,56 @@
+﻿<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="HappyChat.Desktop.Controls.Chat.DeleteMessageDialog"
+    Width="420"
+    SizeToContent="Height"
+    CanResize="False"
+    WindowStartupLocation="CenterOwner"
+    ShowInTaskbar="False">
+
+    <Border
+        Padding="24"
+        Background="{DynamicResource BackgroundPrimaryColor}"
+        CornerRadius="12">
+
+        <StackPanel Spacing="16">
+
+            <TextBlock
+                Text="Delete Message"
+                FontSize="18"
+                FontWeight="SemiBold"/>
+
+            <TextBlock
+                Text="Are you sure you want to delete this message?"
+                FontSize="13"
+                TextWrapping="Wrap"/>
+
+            <CheckBox
+                x:Name="DeleteForEveryoneCheckBox"
+                Content="{Binding AlsoDeleteText}"
+                FontSize="12"/>
+
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10"
+                Margin="0,8,0,0">
+
+                <Button
+                    Grid.Column="0"
+                    Content="Cancel"
+                    Height="36"
+                    Click="CancelButton_OnClick"/>
+
+                <Button
+                    Grid.Column="1"
+                    Content="Delete"
+                    Height="36"
+                    Click="DeleteButton_OnClick"/>
+
+            </Grid>
+
+        </StackPanel>
+
+    </Border>
+
+</Window>

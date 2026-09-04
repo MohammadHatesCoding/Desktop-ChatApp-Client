@@ -1,6 +1,7 @@
 ﻿using HappyChat.Application.DTOs.Chat;
 using HappyChat.Application.Interfaces;
 using HappyChat.Desktop.Commands;
+using HappyChat.Shared.Enum;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -41,6 +42,8 @@ public sealed class ChatViewModel : ViewModelBase
     private bool _hasMoreMessages = true;
     private bool _isLoadingOlderMessages;
 
+    private MessageItemViewModel? _editingMessage;
+
     public ChatViewModel(IChatService chatService, IMessageService messageService)
     {
         _chatService = chatService;
@@ -53,6 +56,7 @@ public sealed class ChatViewModel : ViewModelBase
         SendMessageCommand = new RelayCommand(SendMessage, () => CanSendMessage);
         SearchCommand = new RelayCommand(ApplySearch);
         CancelReplyCommand = new RelayCommand(CancelReply);
+        CancelEditCommand = new RelayCommand(CancelEdit);
     }
 
 
@@ -70,6 +74,8 @@ public sealed class ChatViewModel : ViewModelBase
     public ICommand SearchCommand { get; }
 
     public ICommand CancelReplyCommand { get; }
+
+    public ICommand CancelEditCommand { get; }
 
     public event Action<int>? ScrollToMessageRequested;
 
@@ -143,6 +149,25 @@ public sealed class ChatViewModel : ViewModelBase
         !_isSendingMessage &&
         SelectedConversation is not null;
 
+    public MessageItemViewModel? EditingMessage
+    {
+        get => _editingMessage;
+        private set
+        {
+            if (SetProperty(ref _editingMessage, value))
+            {
+                OnPropertyChanged(nameof(IsEditing));
+                OnPropertyChanged(nameof(EditPreviewText));
+                OnPropertyChanged(nameof(CanSendMessage));
+            }
+        }
+    }
+
+    public bool IsEditing =>
+        EditingMessage is not null;
+
+    public string EditPreviewText =>
+        EditingMessage?.Text ?? string.Empty;
 
     public ConversationItemViewModel? SelectedConversation
     {
@@ -560,6 +585,7 @@ public sealed class ChatViewModel : ViewModelBase
 
     public void ReplyToMessage(MessageItemViewModel message)
     {
+        EditingMessage = null;
         ReplyingToMessage = message;
     }
 
@@ -571,6 +597,20 @@ public sealed class ChatViewModel : ViewModelBase
     // =========================================================
     // Send Message
     // =========================================================
+
+    public void EditMessage(MessageItemViewModel message)
+    {
+        ReplyingToMessage = null;
+
+        EditingMessage = message;
+        MessageText = message.Text;
+    }
+
+    public void CancelEdit()
+    {
+        EditingMessage = null;
+        MessageText = string.Empty;
+    }
 
     private async void SendMessage()
     {
@@ -590,6 +630,20 @@ public sealed class ChatViewModel : ViewModelBase
             ErrorMessage = string.Empty;
 
             _isSendingMessage = true;
+
+            if (EditingMessage is not null)
+            {
+                var message = EditingMessage;
+
+                await _messageService.EditMessage(MessageId: message.Id, Content: content, cancellationToken: _cancellationTokenSource.Token);
+
+                message.ApplyEdit(content);
+
+                EditingMessage = null;
+                MessageText = string.Empty;
+
+                return;
+            }
 
             await _messageService.SendMessage(ChatId: SelectedConversation.ChatId, ReceiverUserId: null, 
                 Content: content, RepliedTo: ReplyingToMessage?.Id, cancellationToken: _cancellationTokenSource.Token);
@@ -634,6 +688,35 @@ public sealed class ChatViewModel : ViewModelBase
                 continue;
 
             Messages.Add(new MessageItemViewModel(message));
+        }
+    }
+
+    public async void RemoveMessage(MessageItemViewModel message)
+    {
+        Messages.Remove(message);
+    }
+
+    public async Task DeleteMessageAsync(
+    MessageItemViewModel message,
+    DeleteType deleteType)
+    {
+        try
+        {
+            ErrorMessage = string.Empty;
+
+            await _messageService.DeleteMessage(
+                MessageId: message.Id,
+                DeleteType: deleteType,
+                cancellationToken: _cancellationTokenSource.Token);
+
+            Messages.Remove(message);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Unable to delete message.";
         }
     }
 
